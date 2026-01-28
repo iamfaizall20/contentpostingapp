@@ -1,1 +1,146 @@
-<p>home works!</p>
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">Posting App</div>
+
+    <div class="nav-right">
+        <div class="nav-links">
+            <a>Home</a>
+            <a>Explore</a>
+            <a>Topics</a>
+            <a>Create</a>
+        </div>
+
+        <!-- Theme Toggle (static for now) -->
+        <div class="theme-toggle">
+            🌙
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN LAYOUT -->
+<div class="layout">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar left">
+        <div class="profile-card">
+            <div class="cover"></div>
+            <img class="avatar" src="https://i.pravatar.cc/80" />
+
+            <h3>Faizal Hassan</h3>
+            <p>Web Developer · Blogger</p>
+
+            <div class="stats">
+                <div>
+                    <strong>120</strong>
+                    <span>Posts</span>
+                </div>
+                <div>
+                    <strong>980</strong>
+                    <span>Followers</span>
+                </div>
+            </div>
+        </div>
+
+        <ul class="menu">
+            <li>My Posts</li>
+            <li>Saved</li>
+            <li>Edit Profile</li>
+            <li>Logout</li>
+        </ul>
+    </aside>
+
+    <!-- FEED (SCROLLABLE) -->
+    <main class="feed">
+        <!-- CREATE ARTICLE HEADER -->
+        <div class="feed-header">
+            <h1>Write something worth reading</h1>
+            <p>Share your knowledge, ideas, or experiences with the community.</p>
+        </div>
+
+        <!-- CREATE POST -->
+        <div class="create-post">
+            <textarea placeholder="Write an article or share your thoughts..."></textarea>
+            <div class="post-actions">
+                <button>✍ Write</button>
+                <button>🖼 Cover</button>
+                <button>📄 Publish</button>
+            </div>
+        </div>
+
+        <!-- ARTICLE POST -->
+        <article class="post">
+            <h2 class="post-title">
+                How I Structured My First Angular Project
+            </h2>
+
+            <div class="post-meta">
+                <img src="https://i.pravatar.cc/32?img=1" />
+                <span>John Doe · 2 hours ago</span>
+            </div>
+
+            <p class="post-excerpt">
+                In this article, I’ll explain how I structured my Angular project,
+                handled components, and kept the code clean and scalable...
+            </p>
+
+            <div class="post-footer">
+                <span class="action">❤️ Like</span>
+                <span class="action">🔖 Save</span>
+                <span class="action">📖 Read More</span>
+            </div>
+        </article>
+
+        <article class="post">
+            <h2 class="post-title">
+                Beginner’s Guide to Web Development in 2026
+            </h2>
+
+            <div class="post-meta">
+                <img src="https://i.pravatar.cc/32?img=2" />
+                <span>Sarah Khan · 5 hours ago</span>
+            </div>
+
+            <p class="post-excerpt">
+                Web development can feel overwhelming at first. This guide
+                breaks it down step by step for beginners...
+            </p>
+
+            <div class="post-footer">
+                <span class="action">❤️ Like</span>
+                <span class="action">🔖 Save</span>
+                <span class="action">📖 Read More</span>
+            </div>
+        </article>
+
+    </main>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="sidebar right">
+
+        <div class="card">
+            <h4>Recommended Writers</h4>
+
+            <div class="suggest-user">
+                <span>Ali Raza</span>
+                <button>Follow</button>
+            </div>
+
+            <div class="suggest-user">
+                <span>Ayesha Noor</span>
+                <button>Follow</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>Trending Topics</h4>
+            <ul class="tags">
+                <li>#Angular</li>
+                <li>#WebDev</li>
+                <li>#Startups</li>
+                <li>#AI</li>
+            </ul>
+        </div>
+
+    </aside>
+
+</div>

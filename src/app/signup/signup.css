@@ -20,20 +20,14 @@
     color: #333;
 }
 
-/* two items in one row */
-.form-row {
-    display: flex;
-    gap: 10px;
-}
-
+/* Each form group in its own row */
 .form-group {
-    flex: 1;
-    margin-bottom: 14px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
     font-size: 14px;
     color: #555;
 }
@@ -51,6 +45,29 @@
     border-color: #1976d2;
 }
 
+.password-wrapper {
+    position: relative;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #555;
+    font-size: 1.2rem;
+    user-select: none;
+}
+
+/* Make error messages smaller */
+.error-text {
+    font-size: 12px;
+    color: #d93025;
+    margin-top: 4px;
+}
+
+/* Button styles */
 button {
     width: 100%;
     padding: 11px;

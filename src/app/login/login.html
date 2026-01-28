@@ -1,19 +1,21 @@
 <div class="login-container">
-    <form #loginForm="ngForm" (ngSubmit)="onsubmit(loginForm)" class="login-card">
+    <form #loginForm="ngForm" (ngSubmit)="onsubmit(loginForm)" class="login-card" novalidate>
 
         <h2>Login to get started</h2>
 
         <div class="form-group">
-            <label>Username or Email</label>
-            <input type="text" name="usernameOrEmail" ngModel required placeholder="Enter username or email" />
+            <label>Username</label>
+            <input type="text" name="username" [(ngModel)]="username" required placeholder="Enter username"
+                autocomplete="off" />
         </div>
 
         <div class="form-group">
             <label>Password</label>
-            <input type="password" name="password" ngModel required placeholder="Enter password" />
+            <input type="password" name="password" [(ngModel)]="password" required placeholder="Enter password"
+                autocomplete="off" />
         </div>
 
-        <button type="submit" [disabled]="loginForm.invalid">
+        <button type="submit">
             Login
         </button>
 

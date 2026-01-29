@@ -32,13 +32,13 @@
         <div class="feed-posts">
 
             <article class="post" *ngFor="let post of posts">
-                <img class="cover" [src]="post.coverImage" />
+                <img class="cover" [src]="post.cover_image" alt="Post Cover Image" />
 
                 <div class="post-body">
                     <h2 class="title">{{ post.title }}</h2>
 
                     <p class="excerpt">
-                        {{ post.excerpt }}
+                        {{ post.content }}
                     </p>
 
                     <div class="tags">
@@ -47,7 +47,7 @@
 
                     <div class="post-footer">
                         <div class="meta">
-                            <span class="user">{{ post.author }}</span>
+                            <span class="user">{{ post.username }}</span>
                             <span> · {{ post.timeAgo }}</span>
                         </div>
 
@@ -80,3 +80,5 @@
     </aside>
 
 </div>
+
+<router-outlet></router-outlet>

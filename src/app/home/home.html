@@ -1,19 +1,13 @@
 <!-- NAVBAR -->
 <nav class="navbar">
-    <div class="logo">Posting App</div>
+    <div class="nav-left">
+        <img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5t2a7uyc1weqoekqueb1.png" alt="Future"
+            class="logo" />
+    </div>
 
     <div class="nav-right">
-        <div class="nav-links">
-            <a>Home</a>
-            <a>Explore</a>
-            <a>Topics</a>
-            <a>Create</a>
-        </div>
-
-        <!-- Theme Toggle (static for now) -->
-        <div class="theme-toggle">
-            🌙
-        </div>
+        <a routerLink="/login" class="btn outline">Login</a>
+        <a routerLink="/signup" class="btn primary">Sign Up</a>
     </div>
 </nav>
 
@@ -22,93 +16,51 @@
 
     <!-- LEFT SIDEBAR -->
     <aside class="sidebar left">
-        <div class="profile-card">
-            <div class="cover"></div>
-            <img class="avatar" src="https://i.pravatar.cc/80" />
-
-            <h3>Faizal Hassan</h3>
-            <p>Web Developer · Blogger</p>
-
-            <div class="stats">
-                <div>
-                    <strong>120</strong>
-                    <span>Posts</span>
-                </div>
-                <div>
-                    <strong>980</strong>
-                    <span>Followers</span>
-                </div>
-            </div>
-        </div>
-
         <ul class="menu">
-            <li>My Posts</li>
-            <li>Saved</li>
-            <li>Edit Profile</li>
-            <li>Logout</li>
+            <li class="active">Home</li>
+            <li>About</li>
+            <li>Privacy Policy</li>
+            <li>Terms of Use</li>
+            <li>Contact</li>
         </ul>
     </aside>
 
-    <!-- FEED (SCROLLABLE) -->
+    <!-- FEED -->
     <main class="feed">
-        <!-- CREATE ARTICLE HEADER -->
+
+        <!-- FEED TABS -->
         <div class="feed-header">
-            <h1>Write something worth reading</h1>
-            <p>Share your knowledge, ideas, or experiences with the community.</p>
+            <span class="active">Discover</span>
+            <span>Latest</span>
+            <span>Top</span>
         </div>
 
-        <!-- CREATE POST -->
-        <div class="create-post">
-            <textarea placeholder="Write an article or share your thoughts..."></textarea>
-            <div class="post-actions">
-                <button>✍ Write</button>
-                <button>🖼 Cover</button>
-                <button>📄 Publish</button>
-            </div>
-        </div>
+        <!-- POSTS -->
+        <article class="post" *ngFor="let post of posts">
+            <img class="cover" [src]="post.coverImage" />
 
-        <!-- ARTICLE POST -->
-        <article class="post">
-            <h2 class="post-title">
-                How I Structured My First Angular Project
-            </h2>
+            <div class="post-body">
+                <h2 class="title">{{ post.title }}</h2>
 
-            <div class="post-meta">
-                <img src="https://i.pravatar.cc/32?img=1" />
-                <span>John Doe · 2 hours ago</span>
-            </div>
+                <p class="excerpt">
+                    {{ post.excerpt }}
+                </p>
 
-            <p class="post-excerpt">
-                In this article, I’ll explain how I structured my Angular project,
-                handled components, and kept the code clean and scalable...
-            </p>
+                <div class="tags">
+                    <span *ngFor="let tag of post.tags">#{{ tag }}</span>
+                </div>
 
-            <div class="post-footer">
-                <span class="action">❤️ Like</span>
-                <span class="action">🔖 Save</span>
-                <span class="action">📖 Read More</span>
-            </div>
-        </article>
+                <div class="post-footer">
+                    <div class="meta">
+                        <span class="user">{{ post.author }}</span>
+                        <span> · {{ post.timeAgo }}</span>
+                    </div>
 
-        <article class="post">
-            <h2 class="post-title">
-                Beginner’s Guide to Web Development in 2026
-            </h2>
-
-            <div class="post-meta">
-                <img src="https://i.pravatar.cc/32?img=2" />
-                <span>Sarah Khan · 5 hours ago</span>
-            </div>
-
-            <p class="post-excerpt">
-                Web development can feel overwhelming at first. This guide
-                breaks it down step by step for beginners...
-            </p>
-
-            <div class="post-footer">
-                <span class="action">❤️ Like</span>
-                <span class="action">🔖 Save</span>
-                <span class="action">📖 Read More</span>
+                    <div class="actions">
+                        <span class="save">🔖</span>
+                        <button class="read">Read more</button>
+                    </div>
+                </div>
             </div>
         </article>
 
@@ -118,27 +70,17 @@
     <aside class="sidebar right">
 
         <div class="card">
-            <h4>Recommended Writers</h4>
-
-            <div class="suggest-user">
-                <span>Ali Raza</span>
-                <button>Follow</button>
-            </div>
-
-            <div class="suggest-user">
-                <span>Ayesha Noor</span>
-                <button>Follow</button>
+            <h4>Trending Topics</h4>
+            <div class="pill-group">
+                <span *ngFor="let topic of trendingTopics">{{ topic }}</span>
             </div>
         </div>
 
         <div class="card">
-            <h4>Trending Topics</h4>
-            <ul class="tags">
-                <li>#Angular</li>
-                <li>#WebDev</li>
-                <li>#Startups</li>
-                <li>#AI</li>
-            </ul>
+            <h4>Trending Tags</h4>
+            <div class="tag-cloud">
+                <span *ngFor="let tag of trendingTags">#{{ tag }}</span>
+            </div>
         </div>
 
     </aside>

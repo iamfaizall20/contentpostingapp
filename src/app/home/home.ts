@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, HttpClientModule, RouterOutlet],
+  imports: [CommonModule, HttpClientModule, RouterOutlet,RouterLink],
   standalone: true,
   templateUrl: './home.html',
   styleUrls: ['./home.css']
@@ -22,6 +22,7 @@ export class Home {
 
   ngOnInit() {
     this.loadPosts();
+    console.log(this.loadPosts());
   }
 
   loadPosts() {

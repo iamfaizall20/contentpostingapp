@@ -34,7 +34,7 @@ export class Login {
       next: (res: any) => {
         if (res && res.status === 200) {
           alert("Login Successful");
-          this.router.navigate(['/home']);
+          this.router.navigate(['/']);
         } else {
           alert(res.message || 'Login failed');
         }

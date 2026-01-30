@@ -25,6 +25,7 @@ export class Home {
   postText = '';
 
   isLoggedIn = false;
+  openDropdown = false;
   currentUser: any = null;
 
   trendingTopics = ['Web Development', 'Startups', 'AI'];
@@ -35,6 +36,10 @@ export class Home {
   ngOnInit() {
     this.checkAuth();
     this.loadPosts();
+  }
+
+  toggleDropdown() {
+    this.openDropdown = !this.openDropdown;
   }
 
   checkAuth() {
@@ -87,6 +92,7 @@ export class Home {
 
   logout() {
     localStorage.removeItem('user');
+    this.openDropdown = false;
     this.router.navigate(['/login']);
   }
 }

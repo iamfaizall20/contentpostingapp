@@ -1,6 +1,6 @@
 :host {
     display: block;
-    background: #f7f8fa;
+    /* background: #f7f8fa; */
 }
 
 /* ================= NAVBAR ================= */
@@ -17,9 +17,48 @@
 }
 
 .nav-right {
+    position: relative;
     display: flex;
     gap: 12px;
     align-items: center;
+}
+
+
+.dropdown {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    width: 180px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    z-index: 1000;
+}
+
+.dropdown::after {
+    position: absolute;
+    content: "";
+    height: 10px;
+    width: 10px;
+    background: #000;
+    right: 12px;
+    top: -5px;
+    transform: rotate(45deg);
+    background: #ffffff;
+}
+
+.dropdown a {
+    display: block;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: #111;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.dropdown a:hover {
+    background: #f1f5f9;
 }
 
 .btn {

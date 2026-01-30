@@ -5,8 +5,21 @@
     </div>
 
     <div class="nav-right">
-        <a routerLink="/login" class="btn outline">Login</a>
-        <a routerLink="/signup" class="btn primary">Sign Up</a>
+
+        <!-- GUEST -->
+        <ng-container *ngIf="!isLoggedIn">
+            <a routerLink="/login" class="btn outline">Login</a>
+            <a routerLink="/signup" class="btn primary">Sign Up</a>
+        </ng-container>
+
+        <!-- LOGGED IN -->
+        <ng-container *ngIf="isLoggedIn">
+            <div class="user-box">
+                <span class="username">{{ currentUser.username }}</span>
+                <img [src]="currentUser.profile_picture" class="avatar">
+            </div>
+        </ng-container>
+
     </div>
 </nav>
 
@@ -24,22 +37,41 @@
 
     <main class="feed">
 
+        <!-- POST COMPOSER -->
+        <div class="composer" *ngIf="isLoggedIn">
+
+            <textarea placeholder="What's on your mind?" [(ngModel)]="postText" maxlength="300"></textarea>
+
+            <div class="composer-footer">
+                <span class="counter">{{ postText.length }}/300</span>
+
+                <div class="composer-actions">
+                    <button class="ai-btn">✨ Ask AI</button>
+                    <a routerLink="/editor" class="link">Open full editor</a>
+                    <button class="publish" (click)="publishPost()">Publish</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FEED HEADER -->
         <div class="feed-header">
             <span class="active">Discover</span>
+            <span *ngIf="isLoggedIn">Following</span>
             <span>Latest</span>
             <span>Top</span>
         </div>
+
+        <!-- POSTS -->
         <div class="feed-posts">
 
             <article class="post" *ngFor="let post of posts">
-                <img class="cover" [src]="post.cover_image" alt="Post Cover Image" />
+                <img class="cover" [src]="post.cover_image" />
 
                 <div class="post-body">
                     <h2 class="title">{{ post.title }}</h2>
 
-                    <p class="excerpt">
-                        {{ post.content }}
-                    </p>
+                    <p class="excerpt">{{ post.content }}</p>
 
                     <div class="tags">
                         <span *ngFor="let tag of post.tags">#{{ tag }}</span>
@@ -52,12 +84,13 @@
                         </div>
 
                         <div class="actions">
-                            <span class="save">🔖</span>
+                            <span>🔖</span>
                             <button class="read">Read more</button>
                         </div>
                     </div>
                 </div>
             </article>
+
         </div>
     </main>
 

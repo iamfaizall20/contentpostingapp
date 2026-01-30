@@ -34,6 +34,7 @@ export class Login {
       next: (res: any) => {
         if (res && res.status === 200) {
           alert("Login Successful");
+          localStorage.setItem('user', JSON.stringify(res.user));
           this.router.navigate(['/']);
         } else {
           alert(res.message || 'Login failed');

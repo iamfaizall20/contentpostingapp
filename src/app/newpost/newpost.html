@@ -1,0 +1,111 @@
+<div class="create-post-page">
+
+    <!-- HEADER -->
+    <header class="top-bar">
+        <div class="left-header">
+            <img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5t2a7uyc1weqoekqueb1.png" class="logo" />
+            <button class="btn ghost back-btn" routerLink="/">← Back</button>
+        </div>
+
+        <div class="top-actions">
+            <button class="btn ghost">Save Draft</button>
+            <button class="btn primary">Publish</button>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <div class="editor-layout">
+
+        <!-- LEFT PANEL -->
+        <aside class="left-panel">
+
+            <!-- COVER -->
+            <section class="cover-section">
+                <img *ngIf="coverPreview; else noCover" [src]="coverPreview" class="cover-img" />
+
+                <ng-template #noCover>
+                    <div class="cover-placeholder">
+                        No cover yet
+                        <button class="btn ghost ai-btn" (click)="generateCoverAI()">
+                            ✨ Generate with AI
+                        </button>
+                    </div>
+                </ng-template>
+
+                <div class="cover-actions">
+                    <label class="btn outline small">
+                        Upload
+                        <input type="file" hidden (change)="onCoverUpload($event)" />
+                    </label>
+
+                    <button *ngIf="coverPreview" class="btn danger small" (click)="removeCover()">
+                        Remove
+                    </button>
+                </div>
+            </section>
+
+            <!-- TAGS -->
+            <section class="tags-section">
+                <div class="section-header">
+                    <h4>Tags</h4>
+                    <button class="btn ghost ai-btn" (click)="suggestTagsAI()">
+                        ✨ AI Suggest
+                    </button>
+                </div>
+
+                <input type="text" maxlength="20" placeholder="Topics readers might search for" class="tag-input"
+                    (keydown.enter)="addTag($event)" />
+
+                <small class="helper-text">
+                    Add up to 5 tags · Press Enter to add
+                </small>
+
+                <div class="tag-list">
+                    <span class="tag" *ngFor="let tag of tags; let i = index">
+                        {{ tag }}
+                        <span class="remove" (click)="removeTag(i)">×</span>
+                    </span>
+                </div>
+            </section>
+
+        </aside>
+
+        <!-- RIGHT PANEL -->
+        <main class="right-panel">
+
+            <!-- TITLE -->
+            <div class="input-group">
+                <div class="group-header">
+                    <small class="helper-text">
+                        A clear title increases reach (max 80 characters)
+                    </small>
+                    <button class="btn ghost ai-btn" (click)="suggestTitleAI()">
+                        ✨ AI Title
+                    </button>
+                </div>
+
+                <input type="text" maxlength="80" placeholder="What’s the main idea you want to share?"
+                    class="title-input" />
+            </div>
+
+            <!-- CONTENT -->
+            <div class="input-group">
+                <div class="group-header">
+                    <small class="helper-text">
+                        Write naturally — you can edit and format later
+                    </small>
+                    <button class="btn ghost ai-btn" (click)="generateContentAI()">
+                        ✨ Continue with AI
+                    </button>
+                </div>
+
+                <textarea maxlength="5000" placeholder="Start with what inspired this post…"
+                    class="content-textarea"></textarea>
+            </div>
+
+        </main>
+
+    </div>
+</div>
+
+<router-outlet></router-outlet>

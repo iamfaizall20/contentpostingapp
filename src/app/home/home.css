@@ -90,9 +90,10 @@
 }
 
 .avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+    margin-left: 10px;
+    width: 34px;
+    height: 34px;
+    border-radius: 6px;
     object-fit: cover;
     background: #e5e7eb;
 }

@@ -14,8 +14,10 @@
 
         <!-- LOGGED IN -->
         <ng-container *ngIf="isLoggedIn">
+            <a routerLink="/newpost" class="btn outline">Create Post</a>
+
             <div class="user-box" (click)="toggleDropdown()">
-                <span class="username">{{ currentUser.username }}</span>
+                <!-- <span class="username">{{ currentUser.username }}</span> -->
                 <img [src]="currentUser.profile_picture" class="avatar">
             </div>
             <div class="dropdown" *ngIf="openDropdown">
@@ -53,7 +55,7 @@
 
                 <div class="composer-actions">
                     <button class="ai-btn">✨ Ask AI</button>
-                    <a routerLink="/editor" class="link">Open full editor</a>
+                    <a routerLink="/newpost" class="link">Open full editor</a>
                     <button class="publish" (click)="publishPost()">Publish</button>
                 </div>
             </div>

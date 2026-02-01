@@ -1,15 +1,15 @@
-<div class="create-post-page">
+<form #postForm="ngForm" class="create-post-page" (ngSubmit)="publishPost(postForm)">
 
     <!-- HEADER -->
     <header class="top-bar">
         <div class="left-header">
             <img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5t2a7uyc1weqoekqueb1.png" class="logo" />
-            <button class="btn ghost back-btn" routerLink="/">← Back</button>
+            <button type="button" class="btn ghost back-btn" routerLink="/">← Back</button>
         </div>
 
         <div class="top-actions">
-            <button class="btn ghost">Save Draft</button>
-            <button class="btn primary">Publish</button>
+            <button type="button" class="btn ghost">Save Draft</button>
+            <button type="submit" class="btn primary">Publish</button>
         </div>
     </header>
 
@@ -26,7 +26,7 @@
                 <ng-template #noCover>
                     <div class="cover-placeholder">
                         No cover yet
-                        <button class="btn ghost ai-btn" (click)="generateCoverAI()">
+                        <button type="button" class="btn ghost ai-btn" (click)="generateCoverAI()">
                             ✨ Generate with AI
                         </button>
                     </div>
@@ -38,7 +38,7 @@
                         <input type="file" hidden (change)="onCoverUpload($event)" />
                     </label>
 
-                    <button *ngIf="coverPreview" class="btn danger small" (click)="removeCover()">
+                    <button type="button" *ngIf="coverPreview" class="btn danger small" (click)="removeCover()">
                         Remove
                     </button>
                 </div>
@@ -48,7 +48,7 @@
             <section class="tags-section">
                 <div class="section-header">
                     <h4>Tags</h4>
-                    <button class="btn ghost ai-btn" (click)="suggestTagsAI()">
+                    <button type="button" class="btn ghost ai-btn" (click)="suggestTagsAI()">
                         ✨ AI Suggest
                     </button>
                 </div>
@@ -79,13 +79,13 @@
                     <small class="helper-text">
                         A clear title increases reach (max 80 characters)
                     </small>
-                    <button class="btn ghost ai-btn" (click)="suggestTitleAI()">
+                    <button type="button" class="btn ghost ai-btn" (click)="suggestTitleAI()">
                         ✨ AI Title
                     </button>
                 </div>
 
-                <input type="text" maxlength="80" placeholder="What’s the main idea you want to share?"
-                    class="title-input" />
+                <input type="text" name="title" ngModel required maxlength="80"
+                    placeholder="What’s the main idea you want to share?" class="title-input" />
             </div>
 
             <!-- CONTENT -->
@@ -94,18 +94,19 @@
                     <small class="helper-text">
                         Write naturally — you can edit and format later
                     </small>
-                    <button class="btn ghost ai-btn" (click)="generateContentAI()">
+                    <button type="button" class="btn ghost ai-btn" (click)="generateContentAI()">
                         ✨ Continue with AI
                     </button>
                 </div>
 
-                <textarea maxlength="5000" placeholder="Start with what inspired this post…"
-                    class="content-textarea"></textarea>
+                <textarea name="content" ngModel required maxlength="5000"
+                    placeholder="Start with what inspired this post…" class="content-textarea">
+                </textarea>
             </div>
 
         </main>
 
     </div>
-</div>
+</form>
 
 <router-outlet></router-outlet>

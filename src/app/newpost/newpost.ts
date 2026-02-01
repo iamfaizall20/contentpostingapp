@@ -45,4 +45,33 @@ export class Newpost {
   suggestTitleAI() { };
   suggestTagsAI() { };
   generateCoverAI() { };
+
+
+  publishPost(form: any) {
+    if (form.invalid) {
+      alert("Please fill the content");
+      return;
+    }
+
+    // Form Data to generate json
+    const formData = new FormData();
+
+    const user = JSON.parse(localStorage.getItem('user')!);
+
+    formData.append('userId', user.userId);
+    formData.append('title', form.value.title);
+    formData.append('content', form.value.content);
+
+
+    this.tags.forEach((tag) => {
+      formData.append('tags[]', tag);
+    });
+
+    if (this.coverPreview) {
+      formData.append('cover_image', this.coverPreview);
+    }
+
+    console.log(formData);
+
+  }
 }

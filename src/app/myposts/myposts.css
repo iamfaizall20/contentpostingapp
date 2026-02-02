@@ -1,0 +1,189 @@
+.page-wrapper {
+    padding: 90px 24px 40px;
+    /* navbar spacing */
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* Back button */
+.back-btn {
+    margin-bottom: 20px;
+}
+
+/* EMPTY STATE */
+.empty-state {
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.empty-state h2 {
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.empty-state p {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 16px;
+}
+
+/* GRID (3 CARDS PER ROW) */
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+/* POST CARD */
+.post {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* COVER IMAGE */
+.cover {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: #e5e7eb;
+}
+
+/* BODY */
+.post-body {
+    padding: 14px 16px;
+}
+
+.title {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.excerpt {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 12px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* TAGS */
+.tags span {
+    display: inline-block;
+    background: #f1f5f9;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+}
+
+/* FOOTER */
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.meta {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.user {
+    font-weight: 600;
+    color: #111;
+}
+
+/* ACTIONS */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bookmark {
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.read {
+    border: 1px solid #d1d5db;
+    background: transparent;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.read:hover {
+    background: #f3f4f6;
+}
+
+/* ================= BUTTONS ================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn.ghost {
+    background: transparent;
+    color: #2563eb;
+}
+
+.btn.ghost:hover {
+    background: #eef2ff;
+}
+
+.btn.primary {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.btn.primary:hover {
+    background: #1d4ed8;
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+}
+
+/* Back button spacing */
+.back-btn {
+    margin-bottom: 24px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .posts-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .posts-grid {
+        grid-template-columns: 1fr;
+    }
+}

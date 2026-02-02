@@ -1,0 +1,55 @@
+<app-navbar></app-navbar>
+
+<div class="page-wrapper">
+
+    <!-- Back button -->
+    <button type="button" class="btn ghost back-btn" routerLink="/">
+        ← Back
+    </button>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" *ngIf="posts.length === 0">
+        <div class="empty-icon">📝</div>
+        <h2>No posts yet</h2>
+        <p>
+            Looks a little empty here.<br />
+            Be the first to share something awesome.
+        </p>
+        <button class="btn primary" (click)="onCreatePost()">
+            Create your first post
+        </button>
+
+        <!-- POSTS GRID -->
+        <div class="posts-grid" *ngIf="posts.length > 0">
+
+            <article class="post" *ngFor="let post of posts">
+                <img class="cover" [src]="post.cover_image" />
+
+                <div class="post-body">
+                    <h2 class="title">{{ post.title }}</h2>
+
+                    <p class="excerpt">{{ post.content }}</p>
+
+                    <div class="tags">
+                        <span *ngFor="let tag of post.tags">#{{ tag }}</span>
+                    </div>
+
+                    <div class="post-footer">
+                        <div class="meta">
+                            <span class="user">{{ post.username }}</span>
+                            <span> · {{ post.timeAgo }}</span>
+                        </div>
+
+                        <div class="actions">
+                            <span class="bookmark" (click)="onBookmark(post)">🔖</span>
+                            <button class="read" (click)="onRead(post)">
+                                Read more
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+    </div>

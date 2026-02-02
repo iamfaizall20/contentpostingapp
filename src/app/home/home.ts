@@ -3,6 +3,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Navbar } from '../navbar/navbar';
 
 @Component({
   selector: 'app-home',
@@ -10,9 +11,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     HttpClientModule,
-    RouterOutlet,
-    RouterLink,
-    FormsModule
+    FormsModule,
+    Navbar
   ],
   templateUrl: './home.html',
   styleUrls: ['./home.css']
@@ -25,7 +25,6 @@ export class Home {
   postText = '';
 
   isLoggedIn = false;
-  openDropdown = false;
   currentUser: any = null;
 
   trendingTopics = ['Web Development', 'Startups', 'AI'];
@@ -36,10 +35,6 @@ export class Home {
   ngOnInit() {
     this.checkAuth();
     this.loadPosts();
-  }
-
-  toggleDropdown() {
-    this.openDropdown = !this.openDropdown;
   }
 
   checkAuth() {
@@ -66,9 +61,7 @@ export class Home {
 
   publishPost() {
     if (!this.postText.trim()) return;
-
     console.log('Publish:', this.postText);
-    // later → POST API
     this.postText = '';
   }
 
@@ -90,9 +83,4 @@ export class Home {
     return `${days}d ago`;
   }
 
-  logout() {
-    localStorage.removeItem('user');
-    this.openDropdown = false;
-    this.router.navigate(['/login']);
-  }
 }

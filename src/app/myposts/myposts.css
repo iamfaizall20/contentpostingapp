@@ -1,16 +1,9 @@
 .page-wrapper {
-    padding: 90px 24px 40px;
-    /* navbar spacing */
-    max-width: 1200px;
-    margin: auto;
+    padding: 80px 0 20px;
+    width: 100%;
 }
 
-/* Back button */
-.back-btn {
-    margin-bottom: 20px;
-}
-
-/* EMPTY STATE */
+/* ================= EMPTY STATE ================= */
 .empty-state {
     height: 60vh;
     display: flex;
@@ -18,27 +11,82 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    gap: 6px;
 }
 
+/* Illustration */
+.empty-illustration {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.empty-illustration .emoji {
+    font-size: 38px;
+    opacity: 0.85;
+}
+
+.empty-illustration .line {
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(to right, #2563eb, #60a5fa);
+    border-radius: 999px;
+    margin-top: 10px;
+}
+
+/* Title */
 .empty-state h2 {
-    font-size: 24px;
-    margin-bottom: 6px;
+    font-size: 30px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
 }
 
+/* Description */
 .empty-state p {
-    font-size: 14px;
+    font-size: 16.5px;
+    letter-spacing: -0.5px;
     color: #6b7280;
-    margin-bottom: 16px;
+    line-height: 1.6;
+    margin-bottom: 14px;
 }
 
-/* GRID (3 CARDS PER ROW) */
+/* Link-style CTA */
+.empty-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: #2563eb;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+}
+
+.empty-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s ease;
+}
+
+.empty-link:hover::after {
+    transform: scaleX(1);
+}
+
+/* ================= POSTS GRID ================= */
 .posts-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
 }
 
-/* POST CARD */
+/* ================= POST CARD ================= */
 .post {
     background: #ffffff;
     border: 1px solid #e5e7eb;
@@ -52,7 +100,7 @@
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-/* COVER IMAGE */
+/* Cover */
 .cover {
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -60,7 +108,7 @@
     background: #e5e7eb;
 }
 
-/* BODY */
+/* Body */
 .post-body {
     padding: 14px 16px;
 }
@@ -83,7 +131,7 @@
     overflow: hidden;
 }
 
-/* TAGS */
+/* Tags */
 .tags span {
     display: inline-block;
     background: #f1f5f9;
@@ -94,7 +142,7 @@
     margin-bottom: 6px;
 }
 
-/* FOOTER */
+/* Footer */
 .post-footer {
     display: flex;
     justify-content: space-between;
@@ -112,7 +160,7 @@
     color: #111;
 }
 
-/* ACTIONS */
+/* Actions */
 .actions {
     display: flex;
     align-items: center;
@@ -170,12 +218,12 @@
     box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
 }
 
-/* Back button spacing */
 .back-btn {
     margin-bottom: 24px;
+    font-size: 16px;
 }
 
-/* RESPONSIVE */
+/* ================= RESPONSIVE ================= */
 @media (max-width: 1024px) {
     .posts-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -185,5 +233,9 @@
 @media (max-width: 640px) {
     .posts-grid {
         grid-template-columns: 1fr;
+    }
+
+    .empty-state h2 {
+        font-size: 22px;
     }
 }

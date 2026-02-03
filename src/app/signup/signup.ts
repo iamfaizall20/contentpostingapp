@@ -54,7 +54,7 @@ export class Signup {
       next: (res) => {
         if (res && res.status === 201) {
           alert(res.message || 'Signup successful');
-          this.router.navigate(['/']);
+          this.router.navigate(['/login']);
         } else {
           alert(res.message || 'Signup failed');
         }

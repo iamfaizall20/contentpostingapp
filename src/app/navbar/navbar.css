@@ -1,3 +1,4 @@
+/* ================= NAVBAR ================= */
 .navbar {
     position: fixed;
     top: 0;
@@ -13,10 +14,12 @@
     background: #f8fafc;
 }
 
+/* Logo */
 .logo {
     height: 34px;
 }
 
+/* Right side */
 .nav-right {
     position: relative;
     display: flex;
@@ -24,29 +27,32 @@
     align-items: center;
 }
 
-
+/* ================= DROPDOWN ================= */
 .dropdown {
     position: absolute;
-    top: 45px;
+    top: 48px;
     right: 0;
     background: #ffffff;
     border: 1px solid #e5e7eb;
-    border-radius: 10px;
+    border-radius: 12px;
     width: 180px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
     z-index: 1000;
+    overflow: hidden;
 }
 
+/* Arrow */
 .dropdown::after {
     position: absolute;
     content: "";
     height: 10px;
     width: 10px;
-    background: #000;
-    right: 12px;
+    right: 16px;
     top: -5px;
-    transform: rotate(45deg);
     background: #ffffff;
+    transform: rotate(45deg);
+    border-left: 1px solid #e5e7eb;
+    border-top: 1px solid #e5e7eb;
 }
 
 .dropdown a {
@@ -62,12 +68,15 @@
     background: #f1f5f9;
 }
 
+/* ================= BUTTONS ================= */
 .btn {
     padding: 7px 14px;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 14px;
     cursor: pointer;
     text-decoration: none;
+    border: none;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn.outline {
@@ -76,31 +85,55 @@
     color: #111;
 }
 
+.btn.outline:hover {
+    background: #f1f5f9;
+}
+
 .btn.primary {
     background: #2563eb;
-    border: none;
     color: #ffffff;
 }
 
-/* Logged-in user */
+.btn.primary:hover {
+    background: #1d4ed8;
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+}
+
 .user-box {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
+    padding: 8px;
+    border-radius: 999px;
+    /* border: 1px solid #e5e7eb; */
     cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.user-box:hover {
+    background: #f8fafc;
 }
 
 .avatar {
-    margin-left: 10px;
-    width: 34px;
-    height: 34px;
-    border-radius: 6px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
     object-fit: cover;
     background: #e5e7eb;
 }
 
 .username {
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     color: #111;
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.arrow {
+    font-size: 17px;
+    color: #6b7280;
+    transition: transform 0.2s ease;
 }

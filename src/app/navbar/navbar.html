@@ -20,12 +20,12 @@
                 <img [src]="currentUser.profile_picture" class="avatar" />
                 <span class="username">{{ currentUser.username }}</span>
                 <span class="arrow">▾</span>
-              </div>
-              
+            </div>
+
             <div class="dropdown" *ngIf="openDropdown">
                 <a>Edit Profile</a>
                 <a routerLink="/myposts">My Posts</a>
-                <a>Saved Posts</a>
+                <a routerLink="/savedposts">Saved Posts</a>
                 <a (click)="logout()">Sign out</a>
             </div>
         </ng-container>

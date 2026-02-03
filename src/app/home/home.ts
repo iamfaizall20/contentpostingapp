@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Navbar } from '../navbar/navbar';
+import { Loader } from "../loader/loader";
 
 @Component({
   selector: 'app-home',
@@ -58,6 +59,31 @@ export class Home {
       }
     });
   }
+
+  savePost(post_id: number) {
+    const userString = localStorage.getItem('user');
+    if (!userString) {
+      console.error('User not found in localStorage');
+      return;
+    }
+
+    const user = JSON.parse(userString);
+
+    const formData = new FormData();
+    formData.append('userId', user.userId.toString());
+    formData.append('post_id', post_id.toString());
+
+    this.http.post("http://localhost/contentpostingappapis/savedposts/create.php", formData)
+      .subscribe({
+        next: () => {
+          alert("Post Saved Successfully");
+        },
+        error: (err) => {
+          console.error('Error saving post:', err);
+        }
+      });
+  }
+
 
   publishPost() {
     if (!this.postText.trim()) return;

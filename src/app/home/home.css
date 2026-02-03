@@ -218,6 +218,17 @@
     gap: 10px;
 }
 
+.save-icon {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    transition: 0.2s linear;
+}
+
+.save-icon:hover {
+    background: #eef2ff;
+}
+
 .read {
     border: 1px solid #d1d5db;
     background: transparent;

@@ -3,10 +3,11 @@ import { Navbar } from "../navbar/navbar";
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
+import { Loader } from '../loader/loader';
 
 @Component({
   selector: 'app-myposts',
-  imports: [Navbar, CommonModule, HttpClientModule, RouterLink],
+  imports: [Navbar, Loader, CommonModule, HttpClientModule, RouterLink],
   templateUrl: './myposts.html',
   styleUrl: './myposts.css',
 })
@@ -14,6 +15,7 @@ export class Myposts implements OnInit {
 
   apiUrl = "http://localhost/contentpostingappapis/myposts/read.php";
   posts: any[] = [];
+  isLoading: boolean = true;
 
   constructor(private http: HttpClient) { }
 
@@ -40,7 +42,7 @@ export class Myposts implements OnInit {
             cover_image: this.getFullImageUrl(post.cover_image),
             timeAgo: this.calculateTimeAgo(post.created_at)
           }));
-          console.log(this.posts);
+          this.isLoading = false;
         }
       },
       error: (err) => {
@@ -48,7 +50,6 @@ export class Myposts implements OnInit {
       }
     });
   }
-
 
   getFullImageUrl(path: string): string {
     return `http://localhost/contentpostingappapis/${path}`;

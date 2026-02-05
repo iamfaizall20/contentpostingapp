@@ -109,4 +109,8 @@ export class Home {
     return `${days}d ago`;
   }
 
+  onReadMore(postId: number) {
+    this.router.navigate(['/viewpost',postId]);
+  }
+
 }

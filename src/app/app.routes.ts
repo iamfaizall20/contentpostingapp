@@ -5,7 +5,7 @@ import { Home } from './home/home';
 import { Newpost } from './newpost/newpost';
 import { Myposts } from './myposts/myposts';
 import { Savedposts } from './savedposts/savedposts';
-import { Loader } from './loader/loader';
+import { Viewpost } from './viewpost/viewpost';
 
 
 export const routes: Routes = [
@@ -15,6 +15,6 @@ export const routes: Routes = [
     { path: 'newpost', component: Newpost },
     { path: 'myposts', component: Myposts },
     { path: 'savedposts', component: Savedposts },
-    { path: 'loader', component: Loader }
+    { path: 'viewpost/:postId', component: Viewpost }
 
 ];

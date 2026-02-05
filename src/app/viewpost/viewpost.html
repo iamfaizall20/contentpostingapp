@@ -1,0 +1,79 @@
+<app-navbar></app-navbar>
+<app-loader *ngIf="isLoading"></app-loader>
+<div class="page-container" *ngIf="!isLoading">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="left-sidebar">
+        <button class="icon-btn">
+            ❤️
+            <span>{{ post.likes }}</span>
+        </button>
+
+        <button class="icon-btn">
+            🔖
+            <span>{{ post.saves }}</span>
+        </button>
+    </aside>
+
+    <!-- CENTER CONTENT -->
+    <main class="post-content">
+
+        <img [src]="post.coverImage" class="cover-image" />
+
+        <h1 class="post-title">{{ post.title }}</h1>
+
+        <div class="post-meta">
+            <span>@{{ post.username }}</span>
+            <span>• {{ post.postedAgo }}</span>
+        </div>
+
+        <p class="post-text">
+            {{ post.content }}
+        </p>
+
+        <div class="tags">
+            <span class="tag" *ngFor="let tag of post.tags">
+                #{{ tag }}
+            </span>
+        </div>
+
+    </main>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="right-sidebar">
+
+        <!-- USER CARD -->
+        <div class="user-card">
+            <img [src]="user.profilePic" class="profile-pic" />
+            <h3>{{ user.username }}</h3>
+
+            <div class="user-stats">
+                <span><b>{{ user.followers }}</b> Followers</span>
+                <span><b>{{ user.following }}</b> Following</span>
+            </div>
+
+            <button class="follow-btn">Follow</button>
+
+            <p class="total-posts">
+                Total Posts: {{ user.totalPosts }}
+            </p>
+        </div>
+
+        <!-- MORE POSTS -->
+        <div class="more-posts">
+            <h4>More from {{ user.username }}</h4>
+
+            <div class="mini-post" *ngFor="let p of morePosts">
+                <h5>{{ p.title }}</h5>
+                <p>{{ p.content }}</p>
+                <div class="tags">
+                    <span class="tag" *ngFor="let tag of p.tags">
+                        #{{ tag }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </aside>
+
+</div>

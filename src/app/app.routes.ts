@@ -6,6 +6,10 @@ import { Newpost } from './newpost/newpost';
 import { Myposts } from './myposts/myposts';
 import { Savedposts } from './savedposts/savedposts';
 import { Viewpost } from './viewpost/viewpost';
+import { About } from './about/about';
+import { Privacypolicy } from './privacypolicy/privacypolicy';
+import { Termsofuse } from './termsofuse/termsofuse';
+import { Contact } from './contact/contact';
 
 
 export const routes: Routes = [
@@ -15,6 +19,10 @@ export const routes: Routes = [
     { path: 'newpost', component: Newpost },
     { path: 'myposts', component: Myposts },
     { path: 'savedposts', component: Savedposts },
-    { path: 'viewpost/:postId', component: Viewpost }
+    { path: 'viewpost/:postId', component: Viewpost },
+    { path: 'about', component: About },
+    { path: 'privacypolicy', component: Privacypolicy },
+    { path: 'termsofuse', component: Termsofuse },
+    { path: 'contact', component: Contact }
 
 ];

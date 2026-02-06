@@ -1,9 +1,16 @@
 <app-navbar></app-navbar>
 <app-loader *ngIf="isLoading"></app-loader>
+
 <div class="page-container" *ngIf="!isLoading">
 
     <!-- LEFT SIDEBAR -->
     <aside class="left-sidebar">
+
+        <!-- BACK BUTTON -->
+        <button class="icon-btn back-icon" routerLink="/" title="Back to Home">
+            ←
+        </button>
+
         <button class="icon-btn">
             ❤️
             <span>{{ post.likes }}</span>
@@ -13,6 +20,7 @@
             🔖
             <span>{{ post.saves }}</span>
         </button>
+
     </aside>
 
     <!-- CENTER CONTENT -->
@@ -66,6 +74,7 @@
             <div class="mini-post" *ngFor="let p of morePosts">
                 <h5>{{ p.title }}</h5>
                 <p>{{ p.content }}</p>
+
                 <div class="tags">
                     <span class="tag" *ngFor="let tag of p.tags">
                         #{{ tag }}

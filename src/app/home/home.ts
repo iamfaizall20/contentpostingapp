@@ -5,6 +5,7 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Navbar } from '../navbar/navbar';
 import { Loader } from "../loader/loader";
+import { Sidebar } from '../sidebar/sidebar';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,8 @@ import { Loader } from "../loader/loader";
     CommonModule,
     HttpClientModule,
     FormsModule,
-    Navbar
+    Navbar,
+    Sidebar
   ],
   templateUrl: './home.html',
   styleUrls: ['./home.css']
@@ -110,7 +112,7 @@ export class Home {
   }
 
   onReadMore(postId: number) {
-    this.router.navigate(['/viewpost',postId]);
+    this.router.navigate(['/viewpost', postId]);
   }
 
 }

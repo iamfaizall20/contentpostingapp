@@ -3,11 +3,11 @@ import { Navbar } from '../navbar/navbar';
 import { Loader } from '../loader/loader';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-viewpost',
-  imports: [Navbar, Loader, CommonModule, HttpClientModule],
+  imports: [Navbar, Loader, CommonModule, HttpClientModule, RouterLink],
   templateUrl: './viewpost.html',
   styleUrls: ['./viewpost.css'],
 })

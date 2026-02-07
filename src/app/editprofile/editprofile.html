@@ -7,21 +7,15 @@
         <h3 class="sidebar-title">Settings</h3>
 
         <ul class="settings-menu">
-            <li 
-                [class.active]="activeTab === 'profile'"
-                (click)="setTab('profile')">
+            <li [class.active]="activeTab === 'profile'" (click)="setTab('profile')">
                 👤 Profile
             </li>
 
-            <li 
-                [class.active]="activeTab === 'account'"
-                (click)="setTab('account')">
+            <li [class.active]="activeTab === 'account'" (click)="setTab('account')">
                 📧 Account
             </li>
 
-            <li 
-                [class.active]="activeTab === 'security'"
-                (click)="setTab('security')">
+            <li [class.active]="activeTab === 'security'" (click)="setTab('security')">
                 🔒 Security
             </li>
         </ul>
@@ -84,7 +78,7 @@
         <!-- ACTIONS -->
         <div class="form-actions">
             <button class="btn ghost" routerLink="/">Cancel</button>
-            <button class="btn primary">Save Changes</button>
+            <button class="btn primary" (click)="saveChanges()">Save Changes</button>
         </div>
 
     </section>

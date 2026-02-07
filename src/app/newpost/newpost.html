@@ -1,19 +1,8 @@
+<app-navbar></app-navbar>
+
 <form #postForm="ngForm" class="create-post-page" (ngSubmit)="publishPost(postForm)">
 
-    <!-- HEADER -->
-    <header class="top-bar">
-        <div class="left-header">
-            <img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5t2a7uyc1weqoekqueb1.png" class="logo" />
-            <button type="button" class="btn ghost back-btn" routerLink="/">← Back</button>
-        </div>
-
-        <div class="top-actions">
-            <button type="button" class="btn ghost">Save Draft</button>
-            <button type="submit" class="btn primary">Publish</button>
-        </div>
-    </header>
-
-    <!-- MAIN -->
+    <!-- MAIN EDITOR -->
     <div class="editor-layout">
 
         <!-- LEFT PANEL -->
@@ -107,6 +96,20 @@
         </main>
 
     </div>
-</form>
 
-<router-outlet></router-outlet>
+    <!-- BOTTOM ACTION BAR -->
+    <div class="editor-actions">
+        <button type="button" class="btn ghost" routerLink="/">
+            Discard
+        </button>
+
+        <button type="button" class="btn outline">
+            Save Draft
+        </button>
+
+        <button type="submit" class="btn primary">
+            Publish
+        </button>
+    </div>
+
+</form>

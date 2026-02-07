@@ -1,1 +1,63 @@
-<p>contact works!</p>
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<section class="contact-page">
+
+    <!-- HEADER -->
+    <div class="contact-header">
+        <h1>Contact & Feedback</h1>
+        <p>
+            Have a question, feedback, or found an issue? Let us know.
+        </p>
+    </div>
+
+    <div class="contact-grid">
+
+        <!-- LEFT INFO -->
+        <div class="contact-info">
+            <h2>Reach us</h2>
+
+            <div class="info-item">
+                <span class="label">Email</span>
+                <span class="value">support@contentify.app</span>
+            </div>
+
+            <div class="info-item">
+                <span class="label">Response time</span>
+                <span class="value">Within 24–48 hours</span>
+            </div>
+
+            <div class="info-item muted">
+                We value your feedback and actively use it to improve the platform.
+            </div>
+        </div>
+
+        <!-- RIGHT FORM -->
+        <form class="contact-form">
+
+            <h2>Send feedback / report issue</h2>
+
+            <div class="form-group">
+                <label>Type</label>
+                <select>
+                    <option>General Feedback</option>
+                    <option>Bug / Issue</option>
+                    <option>Feature Request</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Message</label>
+                <textarea rows="4" placeholder="Describe your feedback or issue..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary">
+                Send
+            </button>
+
+        </form>
+
+    </div>
+
+</section>

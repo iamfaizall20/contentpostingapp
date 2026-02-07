@@ -10,6 +10,7 @@ import { About } from './about/about';
 import { Privacypolicy } from './privacypolicy/privacypolicy';
 import { Termsofuse } from './termsofuse/termsofuse';
 import { Contact } from './contact/contact';
+import { Editprofile } from './editprofile/editprofile';
 
 
 export const routes: Routes = [
@@ -23,6 +24,7 @@ export const routes: Routes = [
     { path: 'about', component: About },
     { path: 'privacypolicy', component: Privacypolicy },
     { path: 'termsofuse', component: Termsofuse },
-    { path: 'contact', component: Contact }
+    { path: 'contact', component: Contact },
+    { path: 'editprofile', component: Editprofile }
 
 ];

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { Navbar } from '../navbar/navbar';
+import { Sidebar } from '../sidebar/sidebar';
 
 @Component({
   selector: 'app-privacypolicy',
-  imports: [],
+  imports: [Navbar, Sidebar],
   templateUrl: './privacypolicy.html',
   styleUrl: './privacypolicy.css',
 })

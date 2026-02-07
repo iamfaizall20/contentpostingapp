@@ -3,11 +3,12 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Navbar } from '../navbar/navbar';
 
 @Component({
   selector: 'app-newpost',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterOutlet, RouterLink,HttpClientModule],
+  imports: [CommonModule, FormsModule, RouterLink,HttpClientModule, Navbar],
   templateUrl: './newpost.html',
   styleUrl: './newpost.css',
 })
@@ -59,22 +60,22 @@ export class Newpost {
       alert("Please fill all fields");
       return;
     }
-  
+
     const formData = new FormData();
     const user = JSON.parse(localStorage.getItem('user')!);
-  
-    formData.append('userId', user.userId); 
+
+    formData.append('userId', user.userId);
     formData.append('title', form.value.title);
     formData.append('content', form.value.content);
-  
+
     this.tags.forEach(tag => {
       formData.append('tags[]', tag);
     });
-  
+
     if (this.coverFile) {
       formData.append('cover_image', this.coverFile);
     }
-  
+
     this.http.post(this.apiURL, formData).subscribe({
       next: (res: any) => {
         alert("Post Added Successfully");
@@ -84,5 +85,5 @@ export class Newpost {
         console.log('Error', err);
       }
     });
-  }  
+  }
 }

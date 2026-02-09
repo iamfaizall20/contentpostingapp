@@ -28,24 +28,47 @@ export class Editprofile implements OnInit {
     profile_picture: ''
   };
 
-  newpassword = '';
   oldpassword = '';
+  newpassword = '';
 
-  ngOnInit() {
+  // =========================
+  // INIT → FETCH USER FROM DB
+  // =========================
+  ngOnInit(): void {
     const authUser = this.auth.getUser();
-
     if (!authUser) return;
 
-    this.user.name = authUser.username;
-    this.user.email = authUser.email;
-    this.user.profile_picture =
-      `http://localhost/contentpostingappapis/${authUser.profile_picture}`;
+    const formData = new FormData();
+    formData.append('userId', authUser.userId);
+
+    this.http.post<any>(
+      'http://localhost/contentpostingappapis/users/getById.php',
+      formData
+    ).subscribe({
+      next: (res) => {
+        if (res?.status === 200 && res.user) {
+          this.user.name = res.user.username;
+          this.user.email = res.user.email;
+          this.user.profile_picture =
+            `http://localhost/contentpostingappapis/${res.user.profile_picture}`;
+        }
+      },
+      error: () => {
+        alert('Failed to load user details');
+      }
+    });
   }
 
+  // ==========
+  // TAB SWITCH
+  // ==========
   setTab(tab: 'profile' | 'account' | 'security') {
     this.activeTab = tab;
   }
 
+  // =================
+  // CHANGE USERNAME
+  // =================
   changeUsername() {
     const authUser = this.auth.getUser();
     if (!authUser) return;
@@ -54,45 +77,68 @@ export class Editprofile implements OnInit {
     formData.append('userId', authUser.userId);
     formData.append('username', this.user.name);
 
-    this.http.post(
+    this.http.post<any>(
       'http://localhost/contentpostingappapis/editprofile/write.php',
       formData
     ).subscribe({
-      next: (res: any) => {
+      next: (res) => {
         if (res?.status === 200) {
-
+          // keep localStorage in sync
           authUser.username = this.user.name;
           this.auth.setUser(authUser);
 
           alert(res.message);
+        } else {
+          alert(res.message || 'Username update failed');
         }
       },
-      error: () => alert('Failed to update username')
+      error: () => {
+        alert('Failed to update username');
+      }
     });
   }
 
+  // =================
+  // CHANGE PASSWORD
+  // =================
   changePassword() {
     const authUser = this.auth.getUser();
     if (!authUser) return;
+
+    if (!this.oldpassword || !this.newpassword) {
+      alert('Please fill all password fields');
+      return;
+    }
 
     const formData = new FormData();
     formData.append('userId', authUser.userId);
     formData.append('oldpassword', this.oldpassword);
     formData.append('password', this.newpassword);
 
-    this.http.post(
+    this.http.post<any>(
       'http://localhost/contentpostingappapis/editprofile/write.php',
       formData
     ).subscribe({
-      next: (res: any) => alert(res.message),
-      error: () => alert('Failed to update password')
+      next: (res) => {
+        alert(res.message);
+        this.oldpassword = '';
+        this.newpassword = '';
+      },
+      error: () => {
+        alert('Failed to update password');
+      }
     });
   }
 
+  // =================
+  // SAVE BUTTON LOGIC
+  // =================
   saveChanges() {
     if (this.activeTab === 'profile') {
       this.changeUsername();
-    } else if (this.activeTab === 'security') {
+    }
+
+    if (this.activeTab === 'security') {
       this.changePassword();
     }
   }

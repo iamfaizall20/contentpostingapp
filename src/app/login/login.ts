@@ -2,6 +2,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { Auth } from '../services/auth';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class Login {
 
   apiUrl = "http://localhost/contentpostingappapis/auth/login.php";
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private auth: Auth) { }
 
   onsubmit(form: NgForm) {
     if (this.username.trim() === '' || this.password.trim() === '') {
@@ -34,7 +35,7 @@ export class Login {
       next: (res: any) => {
         if (res && res.status === 200) {
           alert("Login Successful");
-          localStorage.setItem('user', JSON.stringify(res.user));
+          this.auth.setUser(res.user);
           this.router.navigate(['/']);
         } else {
           alert(res.message || 'Login failed');

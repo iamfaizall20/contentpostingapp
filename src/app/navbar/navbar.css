@@ -41,20 +41,6 @@
     overflow: hidden;
 }
 
-/* Arrow */
-.dropdown::after {
-    position: absolute;
-    content: "";
-    height: 10px;
-    width: 10px;
-    right: 16px;
-    top: -5px;
-    background: #ffffff;
-    transform: rotate(45deg);
-    border-left: 1px solid #e5e7eb;
-    border-top: 1px solid #e5e7eb;
-}
-
 .dropdown a {
     display: block;
     padding: 10px 14px;

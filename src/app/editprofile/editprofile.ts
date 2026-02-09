@@ -30,6 +30,7 @@ export class Editprofile implements OnInit {
 
   oldpassword = '';
   newpassword = '';
+  confpassword = '';
 
   // =========================
   // INIT → FETCH USER FROM DB
@@ -112,7 +113,7 @@ export class Editprofile implements OnInit {
 
     const formData = new FormData();
     formData.append('userId', authUser.userId);
-    formData.append('oldpassword', this.oldpassword);
+    formData.append('oldPassword', this.oldpassword);
     formData.append('password', this.newpassword);
 
     this.http.post<any>(
@@ -123,6 +124,7 @@ export class Editprofile implements OnInit {
         alert(res.message);
         this.oldpassword = '';
         this.newpassword = '';
+        this.confpassword = '';
       },
       error: () => {
         alert('Failed to update password');

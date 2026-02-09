@@ -8,15 +8,15 @@
 
         <ul class="settings-menu">
             <li [class.active]="activeTab === 'profile'" (click)="setTab('profile')">
-                👤 Profile
+                Profile
             </li>
 
             <li [class.active]="activeTab === 'account'" (click)="setTab('account')">
-                📧 Account
+                Account
             </li>
 
             <li [class.active]="activeTab === 'security'" (click)="setTab('security')">
-                🔒 Security
+                Security
             </li>
         </ul>
 
@@ -61,17 +61,17 @@
 
             <div class="form-group">
                 <label>Current password</label>
-                <input type="password" />
+                <input type="password" [(ngModel)]="oldpassword" />
             </div>
 
             <div class="form-group">
                 <label>New password</label>
-                <input type="password" />
+                <input type="password" [(ngModel)]="newpassword" />
             </div>
 
             <div class="form-group">
                 <label>Confirm password</label>
-                <input type="password" />
+                <input type="password" [(ngModel)]="confpassword" />
             </div>
         </div>
 

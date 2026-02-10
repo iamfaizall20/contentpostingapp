@@ -11,13 +11,13 @@
             ←
         </button>
 
-        <button class="icon-btn">
-            ❤️
+        <button class="icon-btn" (click)="toggleLike()">
+            <i class="bx" [ngClass]="isLiked ? 'bxs-heart liked' : 'bx-heart'"></i>
             <span>{{ post.likes }}</span>
         </button>
 
         <button class="icon-btn">
-            🔖
+            <i class="bx bx-bookmark"></i>
             <span>{{ post.saves }}</span>
         </button>
 

@@ -1,3 +1,7 @@
+/* ===================== */
+/* PAGE LAYOUT */
+/* ===================== */
+
 .page-container {
     margin-top: 60px;
     display: flex;
@@ -20,41 +24,68 @@
     height: fit-content;
 }
 
+/* ===================== */
+/* ICON BUTTONS */
+/* ===================== */
+
 .icon-btn {
     background: #ffffff;
     border: 1px solid #e5e7eb;
     border-radius: 10px;
-    padding: 10px 20px;
+    padding: 10px;
     cursor: pointer;
-    font-size: 18.5px;
-    transition: transform 0.2s ease, background 0.2s ease;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .icon-btn:hover {
     transform: scale(1.05);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+.icon-btn i {
+    font-size: 22px;
+    color: #374151;
+    transition: color 0.15s ease, transform 0.15s ease;
 }
 
 .icon-btn span {
-    display: block;
     font-size: 12px;
-    margin-top: 4px;
-    color: #374151;
+    color: #6b7280;
 }
 
-/* 🔥 BACK ICON STYLE */
+/* ❤️ Liked State */
+.icon-btn .liked {
+    color: #e0245e;
+}
+
+/* ===================== */
+/* BACK BUTTON */
+/* ===================== */
+
 .back-icon {
     font-size: 20px;
     font-weight: bold;
     background: transparent;
     border: none;
     color: #2563eb;
-    opacity: 0.7;
+    opacity: 0.75;
 }
 
 .back-icon:hover {
     opacity: 1;
     background: #eef2ff;
+    box-shadow: none;
 }
+
+/* ===================== */
+/* POST CONTENT */
+/* ===================== */
 
 .post-content {
     flex: 1;
@@ -66,9 +97,9 @@
     margin: 0 auto;
 }
 
+/* Hide scrollbar */
 .post-content::-webkit-scrollbar {
     width: 0;
-    background: transparent;
 }
 
 .post-content {
@@ -104,6 +135,10 @@
     color: #1f2937;
 }
 
+/* ===================== */
+/* TAGS */
+/* ===================== */
+
 .tags {
     display: flex;
     gap: 8px;
@@ -118,6 +153,10 @@
     font-size: 12px;
     font-weight: 500;
 }
+
+/* ===================== */
+/* RIGHT SIDEBAR */
+/* ===================== */
 
 .right-sidebar {
     width: 260px;
@@ -140,7 +179,7 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
 }
 
 .user-card h3 {
@@ -176,6 +215,10 @@
     font-size: 13px;
     color: #6b7280;
 }
+
+/* ===================== */
+/* MORE POSTS */
+/* ===================== */
 
 .more-posts {
     background: #ffffff;

@@ -4,23 +4,34 @@ import { Loader } from '../loader/loader';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Auth } from '../services/auth';
 
 @Component({
   selector: 'app-viewpost',
+  standalone: true,
   imports: [Navbar, Loader, CommonModule, HttpClientModule, RouterLink],
   templateUrl: './viewpost.html',
   styleUrls: ['./viewpost.css'],
 })
 export class Viewpost {
-  apiURL = "http://localhost/contentpostingappapis/readpost/read.php";
 
-  isLoading: boolean = true;
+  apiURL = 'http://localhost/contentpostingappapis/readpost/read.php';
+  likeApiURL = 'http://localhost/contentpostingappapis/likes/toggle.php';
+
+  isLoading = true;
   postId!: number;
+
   post: any = {};
   user: any = {};
   morePosts: any[] = [];
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) { }
+  isLiked = false;
+
+  constructor(
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private auth: Auth
+  ) { }
 
   ngOnInit() {
     this.postId = Number(this.route.snapshot.paramMap.get('postId'));
@@ -28,9 +39,10 @@ export class Viewpost {
   }
 
   fetchDetails() {
-    const user = JSON.parse(localStorage.getItem('user')!);
-    const formData = new FormData();
+    const user = this.auth.getUser();
+    if (!user) return;
 
+    const formData = new FormData();
     formData.append('userId', user.userId);
     formData.append('postId', this.postId.toString());
 
@@ -38,6 +50,8 @@ export class Viewpost {
       next: (res: any) => {
         if (res.status === 200) {
           this.processResponse(res.data);
+          // keep your countLikes() call if you want to refresh likes separately
+          this.countLikes();
           this.isLoading = false;
         }
       },
@@ -50,6 +64,7 @@ export class Viewpost {
 
   processResponse(data: any) {
     const post = data.post;
+
     this.post = {
       id: post.id,
       title: post.title,
@@ -61,6 +76,9 @@ export class Viewpost {
       saves: data.meta.savesCount,
       tags: post.tags || []
     };
+
+    // important: update isLiked for HTML button
+    this.isLiked = data.meta.isLiked ?? false;
 
     const author = data.author;
     this.user = {
@@ -75,6 +93,25 @@ export class Viewpost {
       ...p,
       tags: p.tags || []
     }));
+  }
+
+  toggleLike() {
+    const user = this.auth.getUser();
+    if (!user) return;
+
+    const formData = new FormData();
+    formData.append('userId', user.userId);
+    formData.append('postId', this.postId.toString());
+
+    this.http.post(this.likeApiURL, formData).subscribe({
+      next: (res: any) => {
+        this.isLiked = res.liked;
+        this.post.likes = res.count;
+      },
+      error: (err) => {
+        console.error('Like toggle failed:', err);
+      }
+    });
   }
 
   getFullImageUrl(path: string): string {
@@ -94,4 +131,24 @@ export class Viewpost {
     const days = Math.floor(hours / 24);
     return `${days}d ago`;
   }
+
+  countLikes() {
+    const formData = new FormData();
+    formData.append('postId', this.postId.toString());
+
+    this.http.post<{ status: number, count: number }>(
+      'http://localhost/contentpostingappapis/likes/count.php',
+      formData
+    ).subscribe({
+      next: (res) => {
+        if (res.status === 200) {
+          this.post.likes = res.count;
+        }
+      },
+      error: (err) => {
+        console.error('Failed to fetch like count:', err);
+      }
+    });
+  }
+
 }

@@ -11,13 +11,17 @@
             ←
         </button>
 
+        <!-- LIKE BUTTON -->
         <button class="icon-btn" (click)="toggleLike()">
-            <i class="bx" [ngClass]="isLiked ? 'bxs-heart liked' : 'bx-heart'"></i>
+            <i class="bx" [ngClass]="isLiked ? 'bxs-heart liked' : 'bx-heart'">
+            </i>
             <span>{{ post.likes }}</span>
         </button>
 
-        <button class="icon-btn">
-            <i class="bx bx-bookmark"></i>
+        <!-- SAVE BUTTON (UPDATED) -->
+        <button class="icon-btn" (click)="toggleSave()">
+            <i class="bx" [ngClass]="isSaved ? 'bxs-bookmark saved' : 'bx-bookmark'">
+            </i>
             <span>{{ post.saves }}</span>
         </button>
 
@@ -26,7 +30,7 @@
     <!-- CENTER CONTENT -->
     <main class="post-content">
 
-        <img [src]="post.coverImage" class="cover-image" />
+        <img [src]="post.coverImage || 'assets/default.jpg'" class="cover-image" />
 
         <h1 class="post-title">{{ post.title }}</h1>
 
@@ -52,15 +56,15 @@
 
         <!-- USER CARD -->
         <div class="user-card">
-            <img [src]="user.profilePic" class="profile-pic" />
+            <img [src]="user.profilePic || 'assets/default-user.png'" class="profile-pic" />
+
             <h3>{{ user.username }}</h3>
 
             <div class="user-stats">
                 <span><b>{{ user.followers }}</b> Followers</span>
-                <span><b>{{ user.following }}</b> Following</span>
             </div>
 
-            <button class="follow-btn" (click)="toggleFollow()">
+            <button class="follow-btn" [class.following]="isFollowing" (click)="toggleFollow()">
                 {{ isFollowing ? 'Following' : 'Follow' }}
             </button>
 

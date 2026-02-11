@@ -18,8 +18,6 @@ export class Viewpost {
   apiURL = 'http://localhost/contentpostingappapis/readpost/read.php';
   likeApiURL = 'http://localhost/contentpostingappapis/likes/toggle.php';
   followApiURL = 'http://localhost/contentpostingappapis/follows/toggle.php';
-  checkfollowApiURL = 'http://localhost/contentpostingappapis/follows/check.php';
-
 
   isLoading = true;
   isFollowing = false;
@@ -30,6 +28,7 @@ export class Viewpost {
   morePosts: any[] = [];
 
   isLiked = false;
+  isSaved = false;
 
   constructor(
     private http: HttpClient,
@@ -54,7 +53,6 @@ export class Viewpost {
       next: (res: any) => {
         if (res.status === 200) {
           this.processResponse(res.data);
-          this.countLikes();
           this.isLoading = false;
         }
       },
@@ -81,14 +79,17 @@ export class Viewpost {
       tags: post.tags || []
     };
 
+    // ✅ From API
     this.isLiked = data.meta.isLiked ?? false;
+    this.isSaved = data.meta.isSaved ?? false;
+    this.isFollowing = data.meta.isFollowing ?? false;
 
     const author = data.author;
+
     this.user = {
       username: author.username,
       profilePic: this.getFullImageUrl(author.profile_picture),
       followers: data.meta.followersCount,
-      following: data.meta.isFollowing ? 1 : 0,
       totalPosts: data.morePosts.length
     };
 
@@ -96,8 +97,6 @@ export class Viewpost {
       ...p,
       tags: p.tags || []
     }));
-
-    this.checkFollowStatus();
   }
 
   toggleLike() {
@@ -119,7 +118,29 @@ export class Viewpost {
     });
   }
 
+  toggleFollow() {
+    const user = this.auth.getUser();
+    if (!user) return;
+
+    const formData = new FormData();
+    formData.append('loggedinUser', user.userId);
+    formData.append('postOwner', this.post.postOwnerId);
+
+    this.http.post(this.followApiURL, formData).subscribe({
+      next: (res: any) => {
+        if (res) {
+          this.isFollowing = res.isFollowing;
+          this.user.followers = res.followersCount;
+        }
+      },
+      error: (err: any) => {
+        console.log(err.message);
+      }
+    });
+  }
+
   getFullImageUrl(path: string): string {
+    if (!path) return '';
     return `http://localhost/contentpostingappapis/${path}`;
   }
 
@@ -136,70 +157,5 @@ export class Viewpost {
     const days = Math.floor(hours / 24);
     return `${days}d ago`;
   }
-
-  countLikes() {
-    const formData = new FormData();
-    formData.append('postId', this.postId.toString());
-
-    this.http.post<{ status: number, count: number }>(
-      'http://localhost/contentpostingappapis/likes/count.php',
-      formData
-    ).subscribe({
-      next: (res) => {
-        if (res.status === 200) {
-          this.post.likes = res.count;
-        }
-      },
-      error: (err) => {
-        console.error('Failed to fetch like count:', err);
-      }
-    });
-  }
-
-  toggleFollow() {
-    const user = this.auth.getUser();
-    if (!user) return;
-
-    const formData = new FormData;
-
-    formData.append('loggedinUser', user.userId);
-    formData.append('postOwner', this.post.postOwnerId);
-
-    this.http.post(this.followApiURL, formData).subscribe({
-      next: (res: any) => {
-        if (res) {
-          alert(res.message);
-          this.isFollowing = res.isFollowing;
-        }
-      },
-      error: (err: any) => {
-        alert("ERROR, Check Console");
-        console.log(err.message);
-      }
-    })
-  }
-
-  checkFollowStatus() {
-    const user = this.auth.getUser();
-    if (!user) return;
-
-    const formData = new FormData;
-
-    formData.append('loggedinUser', user.userId);
-    formData.append('postOwner', this.post.postOwnerId);
-
-    this.http.post(this.checkfollowApiURL, formData).subscribe({
-      next: (res: any) => {
-        if (res) {
-
-          this.isFollowing = res.isFollowing;
-        }
-      },
-      error: (err: any) => {
-        alert("ERROR, Check Console");
-        console.log(err.message);
-      }
-    })
-  }
-
+  toggleSave() { }
 }

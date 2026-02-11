@@ -60,7 +60,9 @@
                 <span><b>{{ user.following }}</b> Following</span>
             </div>
 
-            <button class="follow-btn">Follow</button>
+            <button class="follow-btn" (click)="toggleFollow()">
+                {{ isFollowing ? 'Following' : 'Follow' }}
+            </button>
 
             <p class="total-posts">
                 Total Posts: {{ user.totalPosts }}

@@ -17,8 +17,12 @@ export class Viewpost {
 
   apiURL = 'http://localhost/contentpostingappapis/readpost/read.php';
   likeApiURL = 'http://localhost/contentpostingappapis/likes/toggle.php';
+  followApiURL = 'http://localhost/contentpostingappapis/follows/toggle.php';
+  checkfollowApiURL = 'http://localhost/contentpostingappapis/follows/check.php';
+
 
   isLoading = true;
+  isFollowing = false;
   postId!: number;
 
   post: any = {};
@@ -50,7 +54,6 @@ export class Viewpost {
       next: (res: any) => {
         if (res.status === 200) {
           this.processResponse(res.data);
-          // keep your countLikes() call if you want to refresh likes separately
           this.countLikes();
           this.isLoading = false;
         }
@@ -69,6 +72,7 @@ export class Viewpost {
       id: post.id,
       title: post.title,
       username: post.username,
+      postOwnerId: post.postOwnerId,
       content: post.content,
       coverImage: this.getFullImageUrl(post.cover_image),
       postedAgo: this.calculateTimeAgo(post.created_at),
@@ -77,7 +81,6 @@ export class Viewpost {
       tags: post.tags || []
     };
 
-    // important: update isLiked for HTML button
     this.isLiked = data.meta.isLiked ?? false;
 
     const author = data.author;
@@ -93,6 +96,8 @@ export class Viewpost {
       ...p,
       tags: p.tags || []
     }));
+
+    this.checkFollowStatus();
   }
 
   toggleLike() {
@@ -149,6 +154,52 @@ export class Viewpost {
         console.error('Failed to fetch like count:', err);
       }
     });
+  }
+
+  toggleFollow() {
+    const user = this.auth.getUser();
+    if (!user) return;
+
+    const formData = new FormData;
+
+    formData.append('loggedinUser', user.userId);
+    formData.append('postOwner', this.post.postOwnerId);
+
+    this.http.post(this.followApiURL, formData).subscribe({
+      next: (res: any) => {
+        if (res) {
+          alert(res.message);
+          this.isFollowing = res.isFollowing;
+        }
+      },
+      error: (err: any) => {
+        alert("ERROR, Check Console");
+        console.log(err.message);
+      }
+    })
+  }
+
+  checkFollowStatus() {
+    const user = this.auth.getUser();
+    if (!user) return;
+
+    const formData = new FormData;
+
+    formData.append('loggedinUser', user.userId);
+    formData.append('postOwner', this.post.postOwnerId);
+
+    this.http.post(this.checkfollowApiURL, formData).subscribe({
+      next: (res: any) => {
+        if (res) {
+
+          this.isFollowing = res.isFollowing;
+        }
+      },
+      error: (err: any) => {
+        alert("ERROR, Check Console");
+        console.log(err.message);
+      }
+    })
   }
 
 }

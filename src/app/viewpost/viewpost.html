@@ -3,23 +3,19 @@
 
 <div class="page-container" *ngIf="!isLoading">
 
-    <!-- LEFT SIDEBAR -->
     <aside class="left-sidebar">
 
-        <!-- BACK BUTTON -->
         <button class="icon-btn back-icon" routerLink="/" title="Back to Home">
             ←
         </button>
 
-        <!-- LIKE BUTTON -->
         <button class="icon-btn" (click)="toggleLike()">
             <i class="bx" [ngClass]="isLiked ? 'bxs-heart liked' : 'bx-heart'">
             </i>
             <span>{{ post.likes }}</span>
         </button>
 
-        <!-- SAVE BUTTON (UPDATED) -->
-        <button class="icon-btn" (click)="toggleSave()">
+        <button class="icon-btn" (click)="toggleSave(post.id)">
             <i class="bx" [ngClass]="isSaved ? 'bxs-bookmark saved' : 'bx-bookmark'">
             </i>
             <span>{{ post.saves }}</span>
@@ -27,7 +23,6 @@
 
     </aside>
 
-    <!-- CENTER CONTENT -->
     <main class="post-content">
 
         <img [src]="post.coverImage || 'assets/default.jpg'" class="cover-image" />
@@ -62,6 +57,7 @@
 
             <div class="user-stats">
                 <span><b>{{ user.followers }}</b> Followers</span>
+                <span><b>{{ user.following }}</b> Following</span>
             </div>
 
             <button class="follow-btn" [class.following]="isFollowing" (click)="toggleFollow()">

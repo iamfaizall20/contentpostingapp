@@ -62,7 +62,7 @@ export class Home {
     });
   }
 
-  savePost(post_id: number) {
+  toggleSave(post: any) {
     const userString = localStorage.getItem('user');
     if (!userString) {
       console.error('User not found in localStorage');
@@ -72,25 +72,19 @@ export class Home {
     const user = JSON.parse(userString);
 
     const formData = new FormData();
-    formData.append('userId', user.userId.toString());
-    formData.append('post_id', post_id.toString());
+    formData.append('userId', user.userId);
+    formData.append('post_id', post.id);
 
     this.http.post("http://localhost/contentpostingappapis/savedposts/create.php", formData)
       .subscribe({
-        next: () => {
-          alert("Post Saved Successfully");
+        next: (res: any) => {
+          alert(res.message);
+          post.isSaved = res.saved;
         },
         error: (err) => {
           console.error('Error saving post:', err);
         }
       });
-  }
-
-
-  publishPost() {
-    if (!this.postText.trim()) return;
-    console.log('Publish:', this.postText);
-    this.postText = '';
   }
 
   getFullImageUrl(path: string): string {

@@ -2,7 +2,7 @@ import { Component, NgModule, OnInit } from '@angular/core';
 import { Navbar } from "../navbar/navbar";
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Loader } from '../loader/loader';
 
 @Component({
@@ -17,7 +17,7 @@ export class Myposts implements OnInit {
   posts: any[] = [];
   isLoading: boolean = true;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
     this.loadPosts();
@@ -70,15 +70,32 @@ export class Myposts implements OnInit {
   }
 
 
-  onRead(post: any) {
-    // navigate to post details
+  onRead(postId: number) {
+    this.router.navigate(['/viewpost', postId]);
   }
 
-  onBookmark(post: any) {
-    // bookmark logic
-  }
+  toggleSave(postId:any) {
+    const userString = localStorage.getItem('user');
+    if (!userString) {
+      console.error('User not found in localStorage');
+      return;
+    }
 
-  onCreatePost() {
-    // navigate to create post
+    const user = JSON.parse(userString);
+
+    const formData = new FormData();
+    formData.append('userId', user.userId);
+    formData.append('post_id', postId);
+
+    this.http.post("http://localhost/contentpostingappapis/savedposts/create.php", formData)
+      .subscribe({
+        next: (res: any) => {
+          alert(res.message);
+          // post.isSaved = res.saved;
+        },
+        error: (err) => {
+          console.error('Error saving post:', err);
+        }
+      });
   }
 }

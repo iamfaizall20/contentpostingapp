@@ -90,6 +90,7 @@ export class Viewpost {
       username: author.username,
       profilePic: this.getFullImageUrl(author.profile_picture),
       followers: data.meta.followersCount,
+      following: data.meta.followingCount,
       totalPosts: data.morePosts.length
     };
 
@@ -157,5 +158,26 @@ export class Viewpost {
     const days = Math.floor(hours / 24);
     return `${days}d ago`;
   }
-  toggleSave() { }
+  toggleSave(postId: any) {
+    const user = JSON.parse(localStorage.getItem('user')!);
+
+    const formData = new FormData();
+
+    formData.append('userId', user.userId);
+    formData.append('post_id', postId);
+
+    this.http.post('http://localhost/contentpostingappapis/savedposts/create.php', formData).subscribe({
+      next: (res: any) => {
+        if (res) {
+          alert("Post Saved Successfully");
+          this.fetchDetails();
+        }
+      },
+      error: (err: any) => {
+        alert("Error, Check Console");
+        console.log('ERROR', err.message);
+
+      }
+    })
+  }
 }

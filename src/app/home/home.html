@@ -3,7 +3,9 @@
 <div class="layout">
 
     <app-sidebar></app-sidebar>
+
     <main class="feed">
+
         <div class="feed-header">
             <span class="active">Discover</span>
             <span *ngIf="isLoggedIn">Following</span>
@@ -17,6 +19,7 @@
                 <img class="cover" [src]="post.cover_image" />
 
                 <div class="post-body">
+
                     <h2 class="title">{{ post.title }}</h2>
 
                     <p class="excerpt">{{ post.content }}</p>
@@ -26,23 +29,30 @@
                     </div>
 
                     <div class="post-footer">
+
                         <div class="meta">
                             <span class="user">{{ post.username }}</span>
                             <span> · {{ post.timeAgo }}</span>
                         </div>
 
                         <div class="actions">
-                            <span class="save-icon" (click)="savePost(post.id)">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" fill="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        d="M18 2H6c-1.1 0-2 .9-2 2v17c0 .36.19.69.5.87s.69.18 1 0l6.5-3.72 6.5 3.72c.15.09.32.13.5.13s.35-.04.5-.13c.31-.18.5-.51.5-.87V4c0-1.1-.9-2-2-2m0 8v9.28l-5.5-3.14a.98.98 0 0 0-.99 0l-5.5 3.14V4h12v6Z">
-                                    </path>
-                                </svg>
+
+                            <!-- 🔥 BOOKMARK ICON -->
+                            <span class="save-icon" (click)="toggleSave(post)">
+                                <i class="bx" [ngClass]="post.isSaved 
+                                     ? 'bxs-bookmark saved' 
+                                     : 'bx-bookmark'">
+                                </i>
                             </span>
-                            <button class="read" (click)="onReadMore(post.id)">Read more</button>
+
+                            <button class="read" (click)="onReadMore(post.id)">
+                                Read more
+                            </button>
+
                         </div>
+
                     </div>
+
                 </div>
             </article>
 
@@ -54,14 +64,18 @@
         <div class="card">
             <h4>Trending Topics</h4>
             <div class="pill-group">
-                <span *ngFor="let topic of trendingTopics">{{ topic }}</span>
+                <span *ngFor="let topic of trendingTopics">
+                    {{ topic }}
+                </span>
             </div>
         </div>
 
         <div class="card">
             <h4>Trending Tags</h4>
             <div class="tag-cloud">
-                <span *ngFor="let tag of trendingTags">#{{ tag }}</span>
+                <span *ngFor="let tag of trendingTags">
+                    #{{ tag }}
+                </span>
             </div>
         </div>
 

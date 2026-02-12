@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Navbar } from '../navbar/navbar';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Loader } from '../loader/loader';
 
 @Component({
@@ -13,7 +13,7 @@ import { Loader } from '../loader/loader';
 })
 export class Savedposts {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   posts: any[] = []
   APIurl = "http://localhost/contentpostingappapis/savedposts/read.php";
@@ -64,6 +64,10 @@ export class Savedposts {
     if (hours < 24) return `${hours}h ago`;
     const days = Math.floor(hours / 24);
     return `${days}d ago`;
+  }
+
+  onRead(postId: number) {
+    this.router.navigate(['/viewpost', postId]);
   }
 
 }

@@ -52,8 +52,13 @@
                     </div>
 
                     <div class="actions">
-                        <span class="bookmark" (click)="onBookmark(post)">🔖</span>
-                        <button class="read" (click)="onRead(post)">
+                        <span class="save-icon" (click)="toggleSave(post.id)">
+                            <i class="bx" [ngClass]="post.isSaved 
+                                 ? 'bxs-bookmark saved' 
+                                 : 'bx-bookmark'">
+                            </i>
+                        </span>
+                        <button class="read" (click)="onRead(post.id)">
                             Read more
                         </button>
                     </div>

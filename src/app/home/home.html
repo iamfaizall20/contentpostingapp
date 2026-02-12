@@ -7,13 +7,25 @@
     <main class="feed">
 
         <div class="feed-header">
-            <span class="active">Discover</span>
-            <span *ngIf="isLoggedIn">Following</span>
-            <span>Latest</span>
-            <span>Top</span>
+            <span [class.active]="activeTab === 'discover'" (click)="changeTab('discover')">
+                Discover
+            </span>
+
+            <span *ngIf="isLoggedIn" [class.active]="activeTab === 'following'" (click)="changeTab('following')">
+                Following
+            </span>
+
+            <span [class.active]="activeTab === 'latest'" (click)="changeTab('latest')">
+                Latest
+            </span>
+
+            <span [class.active]="activeTab === 'top'" (click)="changeTab('top')">
+                Top
+            </span>
         </div>
 
-        <div class="feed-posts">
+        <app-loader *ngIf="isLoading"></app-loader>
+        <div class="feed-posts" *ngIf="!isLoading">
 
             <article class="post" *ngFor="let post of posts">
                 <img class="cover" [src]="post.cover_image" />

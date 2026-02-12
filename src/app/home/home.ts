@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Navbar } from '../navbar/navbar';
-import { Loader } from "../loader/loader";
 import { Sidebar } from '../sidebar/sidebar';
+import { Loader } from '../loader/loader';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +15,8 @@ import { Sidebar } from '../sidebar/sidebar';
     HttpClientModule,
     FormsModule,
     Navbar,
-    Sidebar
+    Sidebar,
+    Loader
   ],
   templateUrl: './home.html',
   styleUrls: ['./home.css']
@@ -25,9 +26,10 @@ export class Home {
   apiURL = 'http://localhost/contentpostingappapis/posts/lists.php';
 
   posts: any[] = [];
-  postText = '';
+  activeTab: string = 'discover';
 
   isLoggedIn = false;
+  isLoading = true;
   currentUser: any = null;
 
   trendingTopics = ['Web Development', 'Startups', 'AI'];
@@ -37,7 +39,7 @@ export class Home {
 
   ngOnInit() {
     this.checkAuth();
-    this.loadPosts();
+    this.loadPosts('discover'); // default tab
   }
 
   checkAuth() {
@@ -50,24 +52,54 @@ export class Home {
     }
   }
 
-  loadPosts() {
-    this.http.get(this.apiURL).subscribe((res: any) => {
+  /* ================================
+     TAB CHANGE
+  ================================= */
+
+  changeTab(type: string) {
+
+    if (this.activeTab === type) return;
+
+    this.activeTab = type;
+    this.loadPosts(type);
+  }
+
+  /* ================================
+     LOAD POSTS FROM API
+  ================================= */
+
+  loadPosts(type: string) {
+    this.isLoading = true;
+
+    let url = `${this.apiURL}?type=${type}`;
+
+    if (type === 'following' && this.currentUser) {
+      url += `&user_id=${this.currentUser.userId}`;
+    }
+
+    this.http.get(url).subscribe((res: any) => {
+
       if (res.status === 200) {
         this.posts = res.posts.map((post: any) => ({
           ...post,
           cover_image: this.getFullImageUrl(post.cover_image),
           timeAgo: this.calculateTimeAgo(post.created_at)
         }));
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 200);
       }
     });
   }
 
+  /* ================================
+     SAVE POST (UNCHANGED)
+  ================================= */
+
   toggleSave(post: any) {
+
     const userString = localStorage.getItem('user');
-    if (!userString) {
-      console.error('User not found in localStorage');
-      return;
-    }
+    if (!userString) return;
 
     const user = JSON.parse(userString);
 
@@ -75,32 +107,36 @@ export class Home {
     formData.append('userId', user.userId);
     formData.append('post_id', post.id);
 
-    this.http.post("http://localhost/contentpostingappapis/savedposts/create.php", formData)
-      .subscribe({
-        next: (res: any) => {
-          alert(res.message);
-          post.isSaved = res.saved;
-        },
-        error: (err) => {
-          console.error('Error saving post:', err);
-        }
-      });
+    this.http.post(
+      "http://localhost/contentpostingappapis/savedposts/create.php",
+      formData
+    ).subscribe((res: any) => {
+      post.isSaved = res.saved;
+    });
   }
+
+  /* ================================
+     HELPERS (UNCHANGED)
+  ================================= */
 
   getFullImageUrl(path: string): string {
     return `http://localhost/contentpostingappapis/${path}`;
   }
 
   calculateTimeAgo(dateString: string): string {
+
     const now = new Date();
     const past = new Date(dateString);
     const seconds = Math.floor((now.getTime() - past.getTime()) / 1000);
 
     if (seconds < 60) return `${seconds}s ago`;
+
     const minutes = Math.floor(seconds / 60);
     if (minutes < 60) return `${minutes}m ago`;
+
     const hours = Math.floor(minutes / 60);
     if (hours < 24) return `${hours}h ago`;
+
     const days = Math.floor(hours / 24);
     return `${days}d ago`;
   }

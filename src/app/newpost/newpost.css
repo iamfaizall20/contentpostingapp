@@ -143,7 +143,7 @@
 /* CONTENT */
 .content-textarea {
     width: 100%;
-    min-height: calc(100vh - 260px);
+    min-height: calc(100vh - 270px);
     font-size: 16px;
     line-height: 1.7;
     padding: 14px;
@@ -192,11 +192,6 @@
 .btn.small {
     padding: 6px 10px;
     font-size: 12px;
-}
-
-.ai-btn {
-    font-size: 12px;
-    color: #6366f1;
 }
 
 /* BOTTOM ACTION BAR */

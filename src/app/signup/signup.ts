@@ -3,11 +3,13 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { Notification } from '../notification/notification';
+import { NotificationService } from '../services/notification-service/notification-service';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [FormsModule, RouterLink, HttpClientModule, CommonModule],
+  imports: [FormsModule, RouterLink, HttpClientModule, CommonModule, Notification],
   templateUrl: './signup.html',
   styleUrls: ['./signup.css'],
 })
@@ -23,7 +25,7 @@ export class Signup {
 
   apiUrl = "http://localhost/contentpostingappapis/auth/signup.php";
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private notificationService: NotificationService) { }
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
@@ -35,12 +37,12 @@ export class Signup {
 
   onSubmit(form: NgForm) {
     if (form.invalid) {
-      alert('Please fill all required fields correctly.');
+      this.notificationService.info("Please fill all required fields correctly");
       return;
     }
 
     if (this.password !== this.confirmPassword) {
-      alert('Passwords do not match.');
+      this.notificationService.error("Passwords do not match");
       return;
     }
 
@@ -53,15 +55,14 @@ export class Signup {
     this.http.post<any>(this.apiUrl, body).subscribe({
       next: (res) => {
         if (res && res.status === 201) {
-          alert(res.message || 'Signup successful');
+          this.notificationService.success("Signup successful");
           this.router.navigate(['/login']);
         } else {
           alert(res.message || 'Signup failed');
         }
       },
       error: (err) => {
-        console.error(err);
-        alert('Server error occurred');
+        this.notificationService.error(err.message);
       }
     });
   }

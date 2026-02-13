@@ -3,14 +3,14 @@
 }
 
 .sidebar {
-    padding: 20px 30px;
+    padding: 20px 2px 20px 20px;
 }
 
 .sidebar.left {
     position: fixed;
     top: 60px;
     left: 0;
-    width: 220px;
+    width: 200px;
     height: calc(100vh - 60px);
     display: flex;
     flex-direction: column;

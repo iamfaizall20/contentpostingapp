@@ -3,11 +3,13 @@ import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../services/auth';
+import { Notification } from '../notification/notification';
+import { NotificationService } from '../services/notification-service/notification-service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterLink, HttpClientModule],
+  imports: [FormsModule, RouterLink, HttpClientModule, Notification],
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
 })
@@ -18,11 +20,16 @@ export class Login {
 
   apiUrl = "http://localhost/contentpostingappapis/auth/login.php";
 
-  constructor(private http: HttpClient, private router: Router, private auth: Auth) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private auth: Auth,
+    private notificationService: NotificationService
+  ) { }
 
   onsubmit(form: NgForm) {
     if (this.username.trim() === '' || this.password.trim() === '') {
-      alert("Please fill all the fields");
+      this.notificationService.error("Please fill all the fields");
       return;
     }
 
@@ -34,20 +41,20 @@ export class Login {
     this.http.post(this.apiUrl, body).subscribe({
       next: (res: any) => {
         if (res && res.status === 200) {
-          alert("Login Successful");
+          this.notificationService.success("Login Successful");
           this.auth.setUser(res.user);
           this.router.navigate(['/']);
         } else {
-          alert(res.message || 'Login failed');
+          this.notificationService.error(res.message || 'Login failed');
         }
       },
       error: (err: any) => {
         if (err.status == 401) {
-          alert("User Not Found");
+          this.notificationService.error("User Not Found");
         } else if (err.status == 500) {
-          alert("Server Error");
+          this.notificationService.error("Server Error");
         } else {
-          alert("Failed to login! Try again");
+          this.notificationService.error("Failed to login! Try again");
         }
       }
     });

@@ -1,5 +1,7 @@
 <app-navbar></app-navbar>
 
+<app-notification></app-notification>
+
 <form #postForm="ngForm" class="create-post-page" (ngSubmit)="publishPost(postForm)">
 
     <!-- MAIN EDITOR -->
@@ -15,9 +17,6 @@
                 <ng-template #noCover>
                     <div class="cover-placeholder">
                         No cover yet
-                        <button type="button" class="btn ghost ai-btn" (click)="generateCoverAI()">
-                            ✨ Generate with AI
-                        </button>
                     </div>
                 </ng-template>
 
@@ -37,9 +36,6 @@
             <section class="tags-section">
                 <div class="section-header">
                     <h4>Tags</h4>
-                    <button type="button" class="btn ghost ai-btn" (click)="suggestTagsAI()">
-                        ✨ AI Suggest
-                    </button>
                 </div>
 
                 <input type="text" maxlength="20" placeholder="Topics readers might search for" class="tag-input"
@@ -68,13 +64,10 @@
                     <small class="helper-text">
                         A clear title increases reach (max 80 characters)
                     </small>
-                    <button type="button" class="btn ghost ai-btn" (click)="suggestTitleAI()">
-                        ✨ AI Title
-                    </button>
                 </div>
 
                 <input type="text" name="title" ngModel required maxlength="80"
-                    placeholder="What’s the main idea you want to share?" class="title-input" />
+                    placeholder="What's the main idea you want to share?" class="title-input" />
             </div>
 
             <!-- CONTENT -->
@@ -83,9 +76,6 @@
                     <small class="helper-text">
                         Write naturally — you can edit and format later
                     </small>
-                    <button type="button" class="btn ghost ai-btn" (click)="generateContentAI()">
-                        ✨ Continue with AI
-                    </button>
                 </div>
 
                 <textarea name="content" ngModel required maxlength="5000"
@@ -101,10 +91,6 @@
     <div class="editor-actions">
         <button type="button" class="btn ghost" routerLink="/">
             Discard
-        </button>
-
-        <button type="button" class="btn outline">
-            Save Draft
         </button>
 
         <button type="submit" class="btn primary">

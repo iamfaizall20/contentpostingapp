@@ -5,11 +5,13 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Auth } from '../services/auth';
+import { Notification } from '../notification/notification';
+import { NotificationService } from '../services/notification-service/notification-service';
 
 @Component({
   selector: 'app-viewpost',
   standalone: true,
-  imports: [Navbar, Loader, CommonModule, HttpClientModule, RouterLink],
+  imports: [Navbar, Loader, CommonModule, HttpClientModule, RouterLink, Notification],
   templateUrl: './viewpost.html',
   styleUrls: ['./viewpost.css'],
 })
@@ -33,7 +35,8 @@ export class Viewpost {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
-    private auth: Auth
+    private auth: Auth,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit() {
@@ -43,7 +46,11 @@ export class Viewpost {
 
   fetchDetails() {
     const user = this.auth.getUser();
-    if (!user) return;
+    if (!user) {
+      this.notificationService.error('Please log in to view posts');
+      this.isLoading = false;
+      return;
+    }
 
     const formData = new FormData();
     formData.append('userId', user.userId);
@@ -57,7 +64,7 @@ export class Viewpost {
         }
       },
       error: (err) => {
-        console.error('Failed to fetch post details:', err);
+        this.notificationService.error('Failed to fetch post details');
         this.isLoading = false;
       }
     });
@@ -102,7 +109,10 @@ export class Viewpost {
 
   toggleLike() {
     const user = this.auth.getUser();
-    if (!user) return;
+    if (!user) {
+      this.notificationService.info('Please log in to like posts');
+      return;
+    }
 
     const formData = new FormData();
     formData.append('userId', user.userId);
@@ -112,16 +122,24 @@ export class Viewpost {
       next: (res: any) => {
         this.isLiked = res.liked;
         this.post.likes = res.count;
+        if (res.liked) {
+          this.notificationService.success('Post liked');
+        } else {
+          this.notificationService.info('Post unliked');
+        }
       },
       error: (err) => {
-        console.error('Like toggle failed:', err);
+        this.notificationService.error('Failed to update like status');
       }
     });
   }
 
   toggleFollow() {
     const user = this.auth.getUser();
-    if (!user) return;
+    if (!user) {
+      this.notificationService.info('Please log in to follow users');
+      return;
+    }
 
     const formData = new FormData();
     formData.append('loggedinUser', user.userId);
@@ -132,10 +150,15 @@ export class Viewpost {
         if (res) {
           this.isFollowing = res.isFollowing;
           this.user.followers = res.followersCount;
+          if (res.isFollowing) {
+            this.notificationService.success('Successfully followed user');
+          } else {
+            this.notificationService.info('Unfollowed user');
+          }
         }
       },
       error: (err: any) => {
-        console.log(err.message);
+        this.notificationService.error('Failed to update follow status');
       }
     });
   }
@@ -158,26 +181,33 @@ export class Viewpost {
     const days = Math.floor(hours / 24);
     return `${days}d ago`;
   }
+
   toggleSave(postId: any) {
     const user = JSON.parse(localStorage.getItem('user')!);
 
-    const formData = new FormData();
+    if (!user) {
+      this.notificationService.info('Please log in to save posts');
+      return;
+    }
 
+    const formData = new FormData();
     formData.append('userId', user.userId);
     formData.append('post_id', postId);
 
     this.http.post('http://localhost/contentpostingappapis/savedposts/create.php', formData).subscribe({
       next: (res: any) => {
         if (res) {
-          alert("Post Saved Successfully");
+          if (res.saved) {
+            this.notificationService.success('Post saved successfully');
+          } else {
+            this.notificationService.info('Post removed from saved');
+          }
           this.fetchDetails();
         }
       },
       error: (err: any) => {
-        alert("Error, Check Console");
-        console.log('ERROR', err.message);
-
+        this.notificationService.error('Failed to save post');
       }
-    })
+    });
   }
 }

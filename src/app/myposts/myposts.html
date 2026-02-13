@@ -1,4 +1,7 @@
 <app-navbar></app-navbar>
+
+<app-notification></app-notification>
+
 <app-loader *ngIf="isLoading"></app-loader>
 
 <div class="page-wrapper">
@@ -52,12 +55,8 @@
                     </div>
 
                     <div class="actions">
-                        <span class="save-icon" (click)="toggleSave(post.id)">
-                            <i class="bx" [ngClass]="post.isSaved 
-                                 ? 'bxs-bookmark saved' 
-                                 : 'bx-bookmark'">
-                            </i>
-                        </span>
+                        <button class="delete" (click)="deletePost(post.id)">Delete</button>
+
                         <button class="read" (click)="onRead(post.id)">
                             Read more
                         </button>

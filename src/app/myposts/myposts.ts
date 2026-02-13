@@ -4,10 +4,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { Loader } from '../loader/loader';
+import { Notification } from '../notification/notification';
+import { NotificationService } from '../services/notification-service/notification-service';
 
 @Component({
   selector: 'app-myposts',
-  imports: [Navbar, Loader, CommonModule, HttpClientModule, RouterLink],
+  imports: [Navbar, Loader, CommonModule, HttpClientModule, RouterLink, Notification],
   templateUrl: './myposts.html',
   styleUrl: './myposts.css',
 })
@@ -17,7 +19,11 @@ export class Myposts implements OnInit {
   posts: any[] = [];
   isLoading: boolean = true;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private notificationService: NotificationService
+  ) { }
 
   ngOnInit() {
     this.loadPosts();
@@ -27,7 +33,8 @@ export class Myposts implements OnInit {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 
     if (!user.userId) {
-      console.error('User not logged in');
+      this.notificationService.error('User not logged in');
+      this.isLoading = false;
       return;
     }
 
@@ -46,7 +53,8 @@ export class Myposts implements OnInit {
         }
       },
       error: (err) => {
-        console.error('API Error:', err);
+        this.notificationService.error('Failed to load posts');
+        this.isLoading = false;
       }
     });
   }
@@ -69,15 +77,14 @@ export class Myposts implements OnInit {
     return `${days}d ago`;
   }
 
-
   onRead(postId: number) {
     this.router.navigate(['/viewpost', postId]);
   }
 
-  toggleSave(postId:any) {
+  toggleSave(postId: any) {
     const userString = localStorage.getItem('user');
     if (!userString) {
-      console.error('User not found in localStorage');
+      this.notificationService.error('Please log in to save posts');
       return;
     }
 
@@ -90,12 +97,32 @@ export class Myposts implements OnInit {
     this.http.post("http://localhost/contentpostingappapis/savedposts/create.php", formData)
       .subscribe({
         next: (res: any) => {
-          alert(res.message);
-          // post.isSaved = res.saved;
+          if (res.saved) {
+            this.notificationService.success('Post saved successfully');
+          } else {
+            this.notificationService.info('Post removed from saved');
+          }
         },
         error: (err) => {
-          console.error('Error saving post:', err);
+          this.notificationService.error('Failed to save post');
         }
       });
+  }
+
+  deletePost(postId: any | number) {
+    const formData = new FormData();
+    formData.append('postId', postId);
+
+    this.http.post('http://localhost/contentpostingappapis/myposts/delete.php', formData).subscribe({
+      next: (res: any) => {
+        if (res) {
+          this.notificationService.success("Post Deleted");
+          this.loadPosts();
+        }
+      },
+      error: (err: any) => {
+        this.notificationService.error(err.message);
+      }
+    })
   }
 }

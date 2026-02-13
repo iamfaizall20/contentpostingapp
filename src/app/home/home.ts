@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { Navbar } from '../navbar/navbar';
 import { Sidebar } from '../sidebar/sidebar';
 import { Loader } from '../loader/loader';
+import { Notification } from '../notification/notification';
+import { NotificationService } from '../services/notification-service/notification-service';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +18,8 @@ import { Loader } from '../loader/loader';
     FormsModule,
     Navbar,
     Sidebar,
-    Loader
+    Loader,
+    Notification
   ],
   templateUrl: './home.html',
   styleUrls: ['./home.css']
@@ -35,11 +38,15 @@ export class Home {
   trendingTopics = ['Web Development', 'Startups', 'AI'];
   trendingTags = ['angular', 'javascript', 'frontend', 'ai'];
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private notificationService: NotificationService
+  ) { }
 
   ngOnInit() {
     this.checkAuth();
-    this.loadPosts('discover'); // default tab
+    this.loadPosts('discover');
   }
 
   checkAuth() {
@@ -77,29 +84,37 @@ export class Home {
       url += `&user_id=${this.currentUser.userId}`;
     }
 
-    this.http.get(url).subscribe((res: any) => {
-
-      if (res.status === 200) {
-        this.posts = res.posts.map((post: any) => ({
-          ...post,
-          cover_image: this.getFullImageUrl(post.cover_image),
-          timeAgo: this.calculateTimeAgo(post.created_at)
-        }));
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 200);
+    this.http.get(url).subscribe({
+      next: (res: any) => {
+        if (res.status === 200) {
+          this.posts = res.posts.map((post: any) => ({
+            ...post,
+            cover_image: this.getFullImageUrl(post.cover_image),
+            timeAgo: this.calculateTimeAgo(post.created_at)
+          }));
+          setTimeout(() => {
+            this.isLoading = false;
+          }, 200);
+        }
+      },
+      error: () => {
+        this.notificationService.error('Failed to load posts');
+        this.isLoading = false;
       }
     });
   }
 
   /* ================================
-     SAVE POST (UNCHANGED)
+     SAVE POST
   ================================= */
 
   toggleSave(post: any) {
 
     const userString = localStorage.getItem('user');
-    if (!userString) return;
+    if (!userString) {
+      this.notificationService.info('Please log in to save posts');
+      return;
+    }
 
     const user = JSON.parse(userString);
 
@@ -110,13 +125,23 @@ export class Home {
     this.http.post(
       "http://localhost/contentpostingappapis/savedposts/create.php",
       formData
-    ).subscribe((res: any) => {
-      post.isSaved = res.saved;
+    ).subscribe({
+      next: (res: any) => {
+        post.isSaved = res.saved;
+        if (res.saved) {
+          this.notificationService.success('Post saved successfully');
+        } else {
+          this.notificationService.info('Post removed from saved');
+        }
+      },
+      error: () => {
+        this.notificationService.error('Failed to save post');
+      }
     });
   }
 
   /* ================================
-     HELPERS (UNCHANGED)
+     HELPERS
   ================================= */
 
   getFullImageUrl(path: string): string {

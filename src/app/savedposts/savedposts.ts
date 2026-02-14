@@ -15,7 +15,7 @@ import { NotificationService } from '../services/notification-service/notificati
 })
 export class Savedposts {
 
-  posts: any[] = []
+  posts: any[] = [];
   APIurl = "http://localhost/contentpostingappapis/savedposts/read.php";
   isLoading: boolean = true;
 
@@ -49,7 +49,8 @@ export class Savedposts {
           this.posts = res.saved_posts.map((post: any) => ({
             ...post,
             cover_image: this.getFullImageUrl(post.cover_image),
-            timeAgo: this.calculateTimeAgo(post.created_at)
+            timeAgo: this.calculateTimeAgo(post.created_at),
+            isSaved: true // All posts in saved section are saved
           }));
           this.isLoading = false;
         }
@@ -57,6 +58,49 @@ export class Savedposts {
       error: (err: any) => {
         this.notificationService.error('Failed to load saved posts');
         this.isLoading = false;
+      }
+    });
+  }
+
+  /* ================================
+     TOGGLE SAVE/UNSAVE POST
+  ================================= */
+  toggleSave(post: any) {
+    const userString = localStorage.getItem('user');
+    
+    if (!userString) {
+      this.notificationService.info('Please log in to manage saved posts');
+      return;
+    }
+
+    const user = JSON.parse(userString);
+
+    const formData = new FormData();
+    formData.append('userId', user.userId);
+    formData.append('post_id', post.id);
+
+    this.http.post(
+      "http://localhost/contentpostingappapis/savedposts/create.php",
+      formData
+    ).subscribe({
+      next: (res: any) => {
+        if (res.saved) {
+          // This shouldn't happen as we're unsaving
+          post.isSaved = true;
+          this.notificationService.success('Post saved successfully');
+        } else {
+          // Post was unsaved - remove from list
+          post.isSaved = false;
+          this.notificationService.info('Post removed from saved');
+          
+          // Remove post from the array after short delay for smooth transition
+          setTimeout(() => {
+            this.posts = this.posts.filter(p => p.id !== post.id);
+          }, 300);
+        }
+      },
+      error: () => {
+        this.notificationService.error('Failed to update saved post');
       }
     });
   }
@@ -82,5 +126,4 @@ export class Savedposts {
   onRead(postId: number) {
     this.router.navigate(['/viewpost', postId]);
   }
-
 }

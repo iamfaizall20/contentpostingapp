@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Navbar } from '../navbar/navbar';
 import { Sidebar } from '../sidebar/sidebar';
-import { Loader } from '../loader/loader';
 import { Notification } from '../notification/notification';
 import { NotificationService } from '../services/notification-service/notification-service';
 
@@ -18,7 +17,6 @@ import { NotificationService } from '../services/notification-service/notificati
     FormsModule,
     Navbar,
     Sidebar,
-    Loader,
     Notification
   ],
   templateUrl: './home.html',

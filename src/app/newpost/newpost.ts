@@ -22,6 +22,7 @@ export class Newpost {
   tags: string[] = [];
   coverPreview: string | null = null;
   coverFile: any;
+  isPublishing: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -62,7 +63,7 @@ export class Newpost {
       this.notificationService.error('Please upload a valid image file (JPG, PNG, WEBP)');
       return;
     }
-    
+
     const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
       this.notificationService.error('Image size must be less than 5MB');
@@ -84,6 +85,7 @@ export class Newpost {
   }
 
   publishPost(form: any) {
+    this.isPublishing = true;
     if (!form.value.title || !form.value.content) {
       this.notificationService.error('Please fill all required fields');
       return;
@@ -113,12 +115,12 @@ export class Newpost {
     this.http.post(this.apiURL, formData).subscribe({
       next: (res: any) => {
         this.notificationService.success('Post published successfully');
-        setTimeout(() => {
-          this.router.navigate(['/']);
-        }, 1000);
+        this.isPublishing = false;
+        this.router.navigate(['/']);
       },
       error: err => {
         this.notificationService.error('Failed to publish post. Please try again');
+        this.isPublishing = false;
       }
     });
   }

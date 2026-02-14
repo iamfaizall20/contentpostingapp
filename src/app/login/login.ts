@@ -43,7 +43,9 @@ export class Login {
         if (res && res.status === 200) {
           this.notificationService.success("Login Successful");
           this.auth.setUser(res.user);
-          this.router.navigate(['/']);
+          setTimeout(() => {
+            this.router.navigate(['/']);
+          }, 500);
         } else {
           this.notificationService.error(res.message || 'Login failed');
         }
